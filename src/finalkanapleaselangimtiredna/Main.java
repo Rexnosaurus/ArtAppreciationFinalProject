@@ -25,7 +25,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    int worldLevel;
+    int worldLevel = 1;
    
     PlayerInventory sharedInventory = new PlayerInventory();
     
@@ -35,7 +35,7 @@ public class Main extends javax.swing.JFrame {
     
     Enemy enemy = Enemy.generateEnemy(worldLevel);
     
-    Entity activeCharacter;
+    Player activeCharacter;
     
     InputStream music;
     
@@ -44,12 +44,22 @@ public class Main extends javax.swing.JFrame {
     
     public Main() {
         initComponents();
-        activeCharacter = rex;
+        activeCharacter = arth;
+        sharedInventory.setActiveCharacter(activeCharacter);
         sharedInventory.setMoney(500);
         shop = new Shop(sharedInventory);
         shop.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
-        inventory = new Inventory(sharedInventory);
+        inventory = new Inventory(sharedInventory);;
         inventory.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
+        
+        shop.setMainFrame(this);
+        inventory.setMainFrame(this);
+        shop.setInvFrame(inventory);
+        inventory.setShopFrame(shop);
+        updateLabelAndBars();
+        
+        btnAaron.setVisible(false);
+        btnRex.setVisible(false);
     }
 
     /**
@@ -87,12 +97,17 @@ public class Main extends javax.swing.JFrame {
         lblEnemyName = new javax.swing.JLabel();
         pBarEnemyHp = new javax.swing.JProgressBar();
         lblEnemyHpAndMaxHp = new javax.swing.JLabel();
+        lblFloorLevel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblSkill2Icon = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        feedback = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnArth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/128bit/iconArth.png"))); // NOI18N
         btnArth.addActionListener(new java.awt.event.ActionListener() {
@@ -100,20 +115,25 @@ public class Main extends javax.swing.JFrame {
                 btnArthActionPerformed(evt);
             }
         });
+        jPanel1.add(btnArth, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 88, 75, 122));
 
         btnRex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/128bit/iconRex.png"))); // NOI18N
+        btnRex.setEnabled(false);
         btnRex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRexActionPerformed(evt);
             }
         });
+        jPanel1.add(btnRex, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 216, 75, 122));
 
         btnAaron.setIcon(new javax.swing.ImageIcon(getClass().getResource("/128bit/iconAaron.png"))); // NOI18N
+        btnAaron.setEnabled(false);
         btnAaron.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAaronActionPerformed(evt);
             }
         });
+        jPanel1.add(btnAaron, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 344, 75, 122));
 
         Shop.setText("Shop");
         Shop.addActionListener(new java.awt.event.ActionListener() {
@@ -121,6 +141,7 @@ public class Main extends javax.swing.JFrame {
                 ShopActionPerformed(evt);
             }
         });
+        jPanel1.add(Shop, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 634, 75, -1));
 
         jButton1.setText("GenerateEnemy");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -128,6 +149,7 @@ public class Main extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 667, 75, -1));
 
         Inventory.setText("Bag");
         Inventory.addActionListener(new java.awt.event.ActionListener() {
@@ -135,46 +157,9 @@ public class Main extends javax.swing.JFrame {
                 InventoryActionPerformed(evt);
             }
         });
+        jPanel1.add(Inventory, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 601, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Shop, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(0, 2, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnAaron, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addComponent(btnRex, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addComponent(btnArth, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Inventory, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(btnArth, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRex, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAaron, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-                .addComponent(Inventory)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Shop)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(null);
@@ -243,6 +228,11 @@ public class Main extends javax.swing.JFrame {
         PanelBattleDoings.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnBasicAttack.setText("Basic Attack");
+        btnBasicAttack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actionTurnHandler(evt);
+            }
+        });
         btnBasicAttack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBasicAttackActionPerformed(evt);
@@ -250,6 +240,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnDodge.setText("Dodge");
+        btnDodge.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actionTurnHandler(evt);
+            }
+        });
         btnDodge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodgeActionPerformed(evt);
@@ -257,8 +252,18 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnSkill1.setText("Skill1");
+        btnSkill1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actionTurnHandler(evt);
+            }
+        });
 
         btnSkill2.setText("Skill2");
+        btnSkill2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actionTurnHandler(evt);
+            }
+        });
         btnSkill2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSkill2ActionPerformed(evt);
@@ -309,13 +314,15 @@ public class Main extends javax.swing.JFrame {
         );
 
         jPanel2.add(PanelBattlemiscellaneous);
-        PanelBattlemiscellaneous.setBounds(1, 584, 1087, 109);
+        PanelBattlemiscellaneous.setBounds(1, 584, 1097, 111);
 
         PanelEnemyInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblEnemyName.setText("lblEnemyName");
 
         lblEnemyHpAndMaxHp.setText("HpAndMaxHp");
+
+        lblFloorLevel.setText("Floor Level");
 
         javax.swing.GroupLayout PanelEnemyInfoLayout = new javax.swing.GroupLayout(PanelEnemyInfo);
         PanelEnemyInfo.setLayout(PanelEnemyInfoLayout);
@@ -324,14 +331,16 @@ public class Main extends javax.swing.JFrame {
             .addGroup(PanelEnemyInfoLayout.createSequentialGroup()
                 .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelEnemyInfoLayout.createSequentialGroup()
-                        .addGap(304, 304, 304)
+                        .addGap(102, 102, 102)
+                        .addComponent(lblFloorLevel)
+                        .addGap(160, 160, 160)
                         .addComponent(pBarEnemyHp, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblEnemyHpAndMaxHp))
                     .addGroup(PanelEnemyInfoLayout.createSequentialGroup()
                         .addGap(502, 502, 502)
                         .addComponent(lblEnemyName)))
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         PanelEnemyInfoLayout.setVerticalGroup(
             PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,12 +350,13 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pBarEnemyHp, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEnemyHpAndMaxHp))
+                    .addComponent(lblEnemyHpAndMaxHp)
+                    .addComponent(lblFloorLevel))
                 .addGap(29, 29, 29))
         );
 
         jPanel2.add(PanelEnemyInfo);
-        PanelEnemyInfo.setBounds(1, 1, 1092, 78);
+        PanelEnemyInfo.setBounds(1, 1, 1097, 79);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -355,31 +365,20 @@ public class Main extends javax.swing.JFrame {
         lblSkill2Icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel3.add(lblSkill2Icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1090, 410));
 
+        feedback.setColumns(50);
+        feedback.setLineWrap(true);
+        feedback.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(feedback);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 1100, 100));
+
         jPanel2.add(jPanel3);
         jPanel3.setBounds(1, 86, 1097, 490);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1107, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(91, 0, 1107, 701));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public void checkHp(){
-        
-    
-    }
     
         Timer timer = new Timer(4000, new ActionListener() {
         @Override
@@ -387,32 +386,66 @@ public class Main extends javax.swing.JFrame {
             lblSkill2Icon.setIcon(null);
             }
         });
-            
+           
+    public boolean hasLost() {
+        if((!rex.isDead && btnRex.isEnabled()) && (!aaron.isDead && btnAaron.isEnabled()) && (!arth.isDead && btnArth.isEnabled())) {
+            return false;
+        }
+        return true;
+    }
+        
     private void btnArthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArthActionPerformed
         // TODO add your handling code here:
         arth.getStats();
+ 
+        btnArth.setSelected(true);
+        btnAaron.setSelected(false);
+        btnRex.setSelected(false);
+        
+        sharedInventory.setActiveCharacter(activeCharacter);
+        btnSkill1.setText("<html>Scolio<br>Attack<html>");
+        btnSkill2.setText("Hackerman");
+        if(activeCharacter != arth) {
+            enemyTakeTurn();
+        }
         activeCharacter = arth;
         updateLabelAndBars();
-        
-        btnSkill2.setText("Hackerman");
     }//GEN-LAST:event_btnArthActionPerformed
 
     private void btnRexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRexActionPerformed
         // TODO add your handling code here:
         rex.getStats();
+ 
+        btnRex.setSelected(true);
+        btnArth.setSelected(false);
+        btnAaron.setSelected(false);
+        
+        sharedInventory.setActiveCharacter(activeCharacter);
+        btnSkill1.setText("<html>Mac<br>Attack<html>");
+        btnSkill2.setText("<html>Money<br>Attack<html>");
+        if(activeCharacter != rex) {
+            enemyTakeTurn();
+        }
         activeCharacter = rex;
         updateLabelAndBars();
-        
-        btnSkill2.setText("<html>Money<br>Attack<html>");
     }//GEN-LAST:event_btnRexActionPerformed
 
     private void btnAaronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAaronActionPerformed
         // TODO add your handling code here:
         aaron.getStats();
+        
+        btnAaron.setSelected(true);
+        btnRex.setSelected(false);
+        btnArth.setSelected(false);
+        
+        sharedInventory.setActiveCharacter(activeCharacter);
+        btnSkill1.setText("<html>Instant<br>Sleep<html>");
+        btnSkill2.setText("BadLuck");
+        if(activeCharacter != aaron) {
+            enemyTakeTurn();
+        }
         activeCharacter = aaron;
         updateLabelAndBars();
-        
-        btnSkill2.setText("BadLuck");
     }//GEN-LAST:event_btnAaronActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -420,6 +453,7 @@ public class Main extends javax.swing.JFrame {
         enemy.getStats();
         worldLevel ++;
         enemy = Enemy.generateEnemy(worldLevel);
+        unlockCharacter();
         
         updateLabelAndBars();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -438,9 +472,9 @@ public class Main extends javax.swing.JFrame {
         
         int damageDealt = basicAttackDamageDealt() - enemy.defense;
         
-        enemy.hp -= damageDealt;
+        enemy.removeHp(damageDealt);
         
-        if (enemy.hp <= 0) {
+        if (enemy.isDead) {
             System.out.println("Enemy is Defeated!!!");
             worldLevel ++;
             generateEnemy();
@@ -547,8 +581,22 @@ public class Main extends javax.swing.JFrame {
         inventory.setVisible(true);
     }//GEN-LAST:event_InventoryActionPerformed
 
-    
-    private void updateLabelAndBars(){
+    private void actionTurnHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionTurnHandler
+        enemyTakeTurn();
+        System.out.println("Here comes the sun toodoodoodoo");
+    }//GEN-LAST:event_actionTurnHandler
+
+    public void unlockCharacter(){
+        
+        if (worldLevel == 11) {
+            btnRex.setEnabled(true);
+            btnRex.setVisible(true);
+        } else if (worldLevel == 21) {
+            btnAaron.setEnabled(true);
+            btnAaron.setVisible(true);
+        }
+    }
+    public void updateLabelAndBars(){
         
         checkActiveCharacterHp();        
         
@@ -567,6 +615,8 @@ public class Main extends javax.swing.JFrame {
         pBarActiveCharacterMana.setValue(percentageActiveCharacterMana);
         pBarEnemyHp.setValue(percentageEnemyHp);
         
+        
+        lblFloorLevel.setText("" + worldLevel);
 
         
     }
@@ -599,6 +649,7 @@ public class Main extends javax.swing.JFrame {
     
     private void enemyTakeTurn(){
         
+        unlockCharacter();
         int randomMove = (int)(Math.random()*1+1);
         
         switch (randomMove) {
@@ -623,6 +674,11 @@ public class Main extends javax.swing.JFrame {
                 
             default:
                 throw new AssertionError();
+        }
+        
+        if(hasLost()) {
+            System.out.println("You lost lmao");
+            System.exit(0);
         }
     }
     
@@ -683,17 +739,20 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnRex;
     private javax.swing.JButton btnSkill1;
     private javax.swing.JButton btnSkill2;
+    private javax.swing.JTextArea feedback;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblActiveCharacter;
     private javax.swing.JLabel lblActiveCharacterHpAndMaxHp;
     private javax.swing.JLabel lblActiveCharacterManaAndMaxMana;
     private javax.swing.JLabel lblEnemyHpAndMaxHp;
     private javax.swing.JLabel lblEnemyName;
+    private javax.swing.JLabel lblFloorLevel;
     private javax.swing.JLabel lblSkill2Icon;
     private javax.swing.JProgressBar pBarActiveCharacterHP;
     private javax.swing.JProgressBar pBarActiveCharacterMana;

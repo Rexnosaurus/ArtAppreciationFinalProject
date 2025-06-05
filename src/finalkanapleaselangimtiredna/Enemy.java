@@ -32,8 +32,7 @@ public class Enemy extends Entity{
     
     public void basicAttack(Entity activeCharacter){
         int damage = this.baseAttack;
-        activeCharacter.hp -= damage;
-        if (activeCharacter.hp < 0) activeCharacter.hp = 0;
+        activeCharacter.removeHp(damage);
         System.out.println("Enemy do a Basic Attack");
         
     }
@@ -100,7 +99,6 @@ public class Enemy extends Entity{
         int enemyBaseAttack = 50 + level * 50;
         int enemyCritDamage = 50 + level * 2;
         int enemtCritRate = 5 + (level / 2);
-        double multiplier = 1.5 + (level*2);
         
         if (level < 10) {
             if (level % 2 == 0) {
@@ -115,6 +113,7 @@ public class Enemy extends Entity{
             enemyMaxMana *= 2;
             enemyMaxMana *= 2;
         } else if (level < 20) {
+            
             if (level % 2 == 0) {
                 enemyName = "Sophie Minion";
             } else {

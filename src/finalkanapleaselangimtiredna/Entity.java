@@ -22,6 +22,7 @@ public class Entity {
     int skill1Cooldown;
     int skill2Cooldown;
     double multiplier;
+    boolean isDead;
 
     public Entity(int level, int experiencePoints, String name, int hp, int maxHp, int mana, int maxMana, int defense, int baseAttack, int critDamage, double critRate, int dodgeCooldown, int skill1Cooldown, int skill2Cooldown) {
         this.level = level;
@@ -40,9 +41,7 @@ public class Entity {
         this.multiplier = multiplier;
     }
 
-    public void basicAttack(){
-        
-    }
+    public void basicAttack(){}
     
     public void dodge(){
         
@@ -54,6 +53,37 @@ public class Entity {
     
     public void skill2(){
         
+    }
+    
+    public void addHp(int amt) {
+        if(!isDead) {
+            hp += amt;
+            if(hp > maxHp) {
+                hp = maxHp;
+            }
+        }
+    }
+    
+    public void addMp(int amt) {
+        mana += amt;
+        if(mana > maxMana) {
+            mana = maxMana;
+        }
+    }
+    
+    public void removeHp(int amt) {
+        hp -= amt;
+        if(hp <= 0) {
+            hp = 0;
+            isDead = true;
+        }
+    }
+    
+    public void removeMp(int amt) {
+        mana -= amt;
+        if(mana <= 0) {
+            mana = 0;
+        }
     }
     
     

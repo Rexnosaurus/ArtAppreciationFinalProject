@@ -11,6 +11,7 @@ public class Player extends Entity{
     boolean  isDodging = false;
     int expThreshold = 100;
     int currentExp = 0;
+    boolean isDead;
     public Player(int playerLevel, int experiencePoints, String playerName, int playerHp, int playerMaxHp, int playerMana, int playerMaxMana, int playerDefense, int playerBaseAttack,
             int playerCritDamage, double playerCritRate, int playerDodgeCooldown, int playerSkill1Cooldown, int playerSkill2Cooldown, PlayerInventory inv) {
         super(1, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -29,7 +30,7 @@ public class Player extends Entity{
         this.skill1Cooldown = playerSkill1Cooldown;
         this.skill2Cooldown = playerSkill2Cooldown;
         this.inventory = inv;
-        
+        this.isDead = false;
     }
     
     public Player(String name, int baseHP, int baseMP, int def, int atk, PlayerInventory inv) {
@@ -54,12 +55,14 @@ public class Player extends Entity{
     }
     
     public void useItem(Item item) {
-        inventory.useItem(name, this);
+        inventory.useItem(item);
     }
     
     public void useItem(String itemName) {
-        inventory.useItem(itemName, this);
+        inventory.useItem(itemName);
     }
+    
+    
     
     @Override
     public void basicAttack(Enemy enemy){

@@ -12,6 +12,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Inventory extends javax.swing.JFrame {
     PlayerInventory inventory;
+    Item currentItem;
+    int currentItemIndex;
+    Shop shopFrame;
+    Main mainFrame;
     
     public Inventory(){};
     
@@ -38,7 +42,7 @@ public class Inventory extends javax.swing.JFrame {
         tableItems = new javax.swing.JTable();
         panelButtons = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
-        btnBuy = new javax.swing.JButton();
+        btnUse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -105,6 +109,11 @@ public class Inventory extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableItemsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableItems);
 
         javax.swing.GroupLayout panelItemListLayout = new javax.swing.GroupLayout(panelItemList);
@@ -129,8 +138,14 @@ public class Inventory extends javax.swing.JFrame {
         btnClose.setText("Close");
         panelButtons.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 189, 76));
 
-        btnBuy.setText("Use");
-        panelButtons.add(btnBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 189, 76));
+        btnUse.setText("Use");
+        btnUse.setEnabled(false);
+        btnUse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUseActionPerformed(evt);
+            }
+        });
+        panelButtons.add(btnUse, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 189, 76));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,9 +168,36 @@ public class Inventory extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void updateDisplay() {
+        displayItem();
+        
+    }
+    
+    public void setShopFrame(Shop shop) {
+        shopFrame = shop;
+    }
+    
+    public void setMainFrame(Main main) {
+        mainFrame = main;
+    }
+    
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         displayItem();
     }//GEN-LAST:event_formWindowActivated
+
+    private void btnUseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseActionPerformed
+        // TODO add your handling code here:
+        inventory.useItem(currentItem);
+        displayItem();
+        mainFrame.updateLabelAndBars();
+    }//GEN-LAST:event_btnUseActionPerformed
+
+    private void tableItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableItemsMouseClicked
+        currentItemIndex = tableItems.getSelectedRow();
+        currentItem = inventory.getItemAt(currentItemIndex);
+        
+        btnUse.setEnabled(true);
+    }//GEN-LAST:event_tableItemsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -213,8 +255,8 @@ public class Inventory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuy;
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnUse;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

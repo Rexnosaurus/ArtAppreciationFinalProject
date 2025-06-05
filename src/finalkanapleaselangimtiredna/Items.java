@@ -21,16 +21,17 @@ public class Items {
         public PotionSmallHealth() { 
             super(
                 0,
-                "Small Health Potion",
-                "A potion that slightly restores the user's HP",
+                "Fish Fillet",
+                "A.....",
                 100,
                 50
             );
         }
         
         @Override
-        public void use(Entity activeCharacter){
-            activeCharacter.hp += 150;
+        public void use(Player activeCharacter){
+            activeCharacter.addHp(150);
+            System.out.println("Item used by: "+activeCharacter.name);
         }
         
     }    
@@ -39,16 +40,16 @@ public class Items {
         public PotionLargeHealth() {
             super(
                 1, 
-                "Large Health Potion", 
-                "A potion that will greatly restore hp of an active character", 
+                "Turon ni Nanay", 
+                "A........", 
                 150, 
                 75
             );    
         }
         
         @Override
-        public void use(Entity activeCharacter){
-            activeCharacter.hp += 300;
+        public void use(Player activeCharacter){
+            activeCharacter.addHp(250);
             
         }
         
@@ -59,16 +60,16 @@ public class Items {
         public PotionSmallMana() {
             super(
                 2, 
-                "Small Mana Potion", 
-                "A potion that restores a small amount of mana for the user", 
+                "Lucky Day", 
+                "A..................", 
                 100, 
                 50
             );    
         }
         
         @Override
-        public void use(Entity activeCharacter){
-            activeCharacter.mana += 150;
+        public void use(Player activeCharacter){
+            activeCharacter.addMp(150);
             
         }
         
@@ -77,17 +78,36 @@ public class Items {
     public static class PotionLargeMana extends Item{
         public PotionLargeMana() {
             super(
-                1, 
-                "Large Mana Potion", 
-                "A potion that will greatly restore hp of an active character", 
+                3, 
+                "Black Coffee ni Rex", 
+                "A potion that will greatly restore hp of an active character.", 
                 150, 
-                75);    
-            }
+                75
+            );    
+        }
+    
         
         @Override
-        public void use(Entity activeCharacter){
-            activeCharacter.mana += 300;
+        public void use(Player activeCharacter){
+            activeCharacter.addMp(250);
             
         }
-    }    
+    }
+    
+    public static class PotionRevive extends Item {
+        public PotionRevive() {
+            super(
+                4,
+                "",
+                "Revives an ally.",
+                2000,
+                350
+            );
+        }
+        
+        @Override
+        public void use(Player activeCharacter) {
+            
+        }
+    }
 }

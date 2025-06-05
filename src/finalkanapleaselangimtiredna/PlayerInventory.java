@@ -6,16 +6,22 @@ package finalkanapleaselangimtiredna;
 
 public class PlayerInventory extends AbstractInventory {
     private int money;
+    Player activePlayer;
     public PlayerInventory() {
         super();
         money = 0;
     }
     
-    public void useItem(Item item, Player user) {
-        item.use(user);
+    public void useItem(Item item) {
+        item.use(activePlayer);
+        CONTENTS.put(item, CONTENTS.get(item)-1);
+        int curItemAmt = CONTENTS.get(item);
+        if(curItemAmt <= 0) {
+            CONTENTS.remove(item);
+        }
     }
     
-    public void useItem(String itemName, Player user) {
+    public void useItem(String itemName) {
         try {
             Object[] contentsKeySet = CONTENTS.keySet().toArray();
             for(int i = 0; i < contentsKeySet.length; i++) {
@@ -23,7 +29,7 @@ public class PlayerInventory extends AbstractInventory {
                 if(currentItem.getItemName().equalsIgnoreCase(itemName)) {
                     int currentItemAmount = CONTENTS.get(currentItem);
                     if(currentItemAmount-1 == 0) {
-                        currentItem.use(user);
+                        currentItem.use(activePlayer);
                     }
                     else {
                         CONTENTS.put(currentItem, currentItemAmount-1);
@@ -42,5 +48,13 @@ public class PlayerInventory extends AbstractInventory {
     
     public void setMoney(int amt) {
         money = amt;
+    }
+    
+    public Player getActiveCharacter() {
+        return activePlayer;
+    }
+    
+    public void setActiveCharacter(Player newActivePlayer) {
+        activePlayer = newActivePlayer;
     }
 }

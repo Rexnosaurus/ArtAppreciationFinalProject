@@ -21,6 +21,8 @@ public class Shop extends javax.swing.JFrame {
     ShopInventory stock;
     Item currentItem;
     int currentItemIndex;
+    Inventory inventoryFrame;
+    Main mainFrame;
     
     // Default Constructor. Do not remove
     public Shop(){};
@@ -45,7 +47,8 @@ public class Shop extends javax.swing.JFrame {
 
         panelItemInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtDesc = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDesc = new javax.swing.JTextArea();
         panelItemList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableItems = new javax.swing.JTable();
@@ -64,11 +67,13 @@ public class Shop extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelItemInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -76,8 +81,11 @@ public class Shop extends javax.swing.JFrame {
         jLabel1.setText("Selected Item Image");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtDesc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtDesc.setText("Selected Item Description");
+        txtDesc.setColumns(15);
+        txtDesc.setLineWrap(true);
+        txtDesc.setRows(5);
+        txtDesc.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(txtDesc);
 
         javax.swing.GroupLayout panelItemInfoLayout = new javax.swing.GroupLayout(panelItemInfo);
         panelItemInfo.setLayout(panelItemInfoLayout);
@@ -86,8 +94,8 @@ public class Shop extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelItemInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelItemInfoLayout.setVerticalGroup(
@@ -95,10 +103,12 @@ public class Shop extends javax.swing.JFrame {
             .addGroup(panelItemInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        getContentPane().add(panelItemInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 619));
 
         panelItemList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -151,6 +161,8 @@ public class Shop extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        getContentPane().add(panelItemList, new org.netbeans.lib.awtextra.AbsoluteConstraints(343, 0, -1, -1));
 
         panelButtons.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -226,27 +238,23 @@ public class Shop extends javax.swing.JFrame {
         });
         panelButtons.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelItemInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(panelItemList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(panelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelItemInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelItemList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelButtons, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(panelButtons, new org.netbeans.lib.awtextra.AbsoluteConstraints(741, 0, -1, 619));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void updateDisplay() {
+        displayItem();
+        
+    }
+    
+    public void setInvFrame(Inventory inv) {
+        inventoryFrame = inv;
+    }
+    
+    public void setMainFrame(Main main) {
+        mainFrame = main;
+    }
     
     public int totalCost(){
         int quantity = (int) txtQuantity.getValue();
@@ -255,10 +263,6 @@ public class Shop extends javax.swing.JFrame {
   
         txtTotalPrice.setText(""+totalCost);
         return totalCost;
-    }
-    
-    public void updateDisplay() {
-        
     }
     
     private void txtCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostActionPerformed
@@ -301,6 +305,7 @@ public class Shop extends javax.swing.JFrame {
         }
         
         displayItem();
+        inventoryFrame.updateDisplay();
     }//GEN-LAST:event_btnBuyActionPerformed
 
     private void tableItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableItemsMouseClicked
@@ -428,13 +433,14 @@ public class Shop extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel mani;
     private javax.swing.JPanel panelButtons;
     private javax.swing.JPanel panelItemInfo;
     private javax.swing.JPanel panelItemList;
     private javax.swing.JTable tableItems;
     private javax.swing.JTextField txtCost;
-    private javax.swing.JLabel txtDesc;
+    private javax.swing.JTextArea txtDesc;
     private javax.swing.JTextField txtName1;
     private javax.swing.JSpinner txtQuantity;
     private javax.swing.JTextField txtTotalPrice;
