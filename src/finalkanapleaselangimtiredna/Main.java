@@ -100,8 +100,6 @@ public class Main extends javax.swing.JFrame {
         lblFloorLevel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblSkill2Icon = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        feedback = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -365,13 +363,6 @@ public class Main extends javax.swing.JFrame {
         lblSkill2Icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel3.add(lblSkill2Icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1090, 410));
 
-        feedback.setColumns(50);
-        feedback.setLineWrap(true);
-        feedback.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(feedback);
-
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 1100, 100));
-
         jPanel2.add(jPanel3);
         jPanel3.setBounds(1, 86, 1097, 490);
 
@@ -388,7 +379,8 @@ public class Main extends javax.swing.JFrame {
         });
            
     public boolean hasLost() {
-        if((!rex.isDead && btnRex.isEnabled()) && (!aaron.isDead && btnAaron.isEnabled()) && (!arth.isDead && btnArth.isEnabled())) {
+        if((!rex.isDead || !btnRex.isEnabled()) && (!aaron.isDead || !btnAaron.isEnabled()) && (!arth.isDead || !btnArth.isEnabled())) {
+            System.out.println("here hasLost");
             return false;
         }
         return true;
@@ -739,14 +731,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnRex;
     private javax.swing.JButton btnSkill1;
     private javax.swing.JButton btnSkill2;
-    private javax.swing.JTextArea feedback;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblActiveCharacter;
     private javax.swing.JLabel lblActiveCharacterHpAndMaxHp;
     private javax.swing.JLabel lblActiveCharacterManaAndMaxMana;
