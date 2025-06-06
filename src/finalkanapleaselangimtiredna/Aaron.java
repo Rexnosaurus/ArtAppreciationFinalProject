@@ -9,7 +9,7 @@ package finalkanapleaselangimtiredna;
 public class Aaron extends Player{
 
     public Aaron(PlayerInventory inv) {
-        super(1, 1, "Aaron", 600, 600, 200, 200, 0, 100, 50, 5, 5, 10, 15, inv);
+        super(1, "Aaron", 600, 600, 200, 200, 0, 100, 50, 5, 5, 10, 15, inv);
         
     }
     
@@ -25,7 +25,8 @@ public class Aaron extends Player{
     
     @Override
     public void skill1(){
-        
+        int instantSleepTurnCount = 5;
+        hp += 50;
     }
     
     @Override

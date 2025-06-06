@@ -26,6 +26,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     int worldLevel = 1;
+    String stage; 
    
     PlayerInventory sharedInventory = new PlayerInventory();
     
@@ -60,6 +61,8 @@ public class Main extends javax.swing.JFrame {
         
         btnAaron.setVisible(false);
         btnRex.setVisible(false);
+        
+        updateLabelAndBars();
     }
 
     /**
@@ -88,13 +91,15 @@ public class Main extends javax.swing.JFrame {
         lblActiveCharacter = new javax.swing.JLabel();
         lblActiveCharacterHpAndMaxHp = new javax.swing.JLabel();
         lblActiveCharacterManaAndMaxMana = new javax.swing.JLabel();
+        lblActiveCharacterXpCurrAndMax = new javax.swing.JLabel();
+        lblPlayersLevel = new javax.swing.JLabel();
         PanelBattleDoings = new javax.swing.JPanel();
         btnBasicAttack = new javax.swing.JButton();
         btnDodge = new javax.swing.JButton();
         btnSkill1 = new javax.swing.JButton();
         btnSkill2 = new javax.swing.JButton();
         PanelEnemyInfo = new javax.swing.JPanel();
-        lblEnemyName = new javax.swing.JLabel();
+        lblEnemyNameandLevel = new javax.swing.JLabel();
         pBarEnemyHp = new javax.swing.JProgressBar();
         lblEnemyHpAndMaxHp = new javax.swing.JLabel();
         lblFloorLevel = new javax.swing.JLabel();
@@ -176,6 +181,10 @@ public class Main extends javax.swing.JFrame {
 
         lblActiveCharacterManaAndMaxMana.setText("ManaAndMaxMana");
 
+        lblActiveCharacterXpCurrAndMax.setText("ActiveCharacterXp");
+
+        lblPlayersLevel.setText("PlayersLevel");
+
         javax.swing.GroupLayout PanelPlayerInfoLayout = new javax.swing.GroupLayout(PanelPlayerInfo);
         PanelPlayerInfo.setLayout(PanelPlayerInfoLayout);
         PanelPlayerInfoLayout.setHorizontalGroup(
@@ -184,38 +193,44 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
+                        .addComponent(lblActiveCharacter)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPlayersLevel)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblActiveCharacterXpCurrAndMax))
+                    .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
                         .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pBarActiveCharacterMana, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pBarActiveCharacterHP, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
-                                .addComponent(pBarActiveCharacterHP, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblActiveCharacterHpAndMaxHp))
-                            .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
-                                .addComponent(pBarActiveCharacterMana, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblActiveCharacterManaAndMaxMana))))
-                    .addComponent(lblActiveCharacter))
+                            .addComponent(lblActiveCharacterHpAndMaxHp)
+                            .addComponent(lblActiveCharacterManaAndMaxMana))))
                 .addContainerGap(145, Short.MAX_VALUE))
         );
         PanelPlayerInfoLayout.setVerticalGroup(
             PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(lblActiveCharacter)
+                .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblActiveCharacter)
+                    .addComponent(lblPlayersLevel)
+                    .addComponent(lblActiveCharacterXpCurrAndMax))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPlayerInfoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblActiveCharacterHpAndMaxHp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblActiveCharacterManaAndMaxMana))
-                    .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
-                        .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(pBarActiveCharacterHP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1))
-                            .addComponent(lblActiveCharacterHpAndMaxHp))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPlayerInfoLayout.createSequentialGroup()
+                        .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pBarActiveCharacterHP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -316,10 +331,12 @@ public class Main extends javax.swing.JFrame {
 
         PanelEnemyInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblEnemyName.setText("lblEnemyName");
+        lblEnemyNameandLevel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEnemyNameandLevel.setText("lblEnemyName");
 
         lblEnemyHpAndMaxHp.setText("HpAndMaxHp");
 
+        lblFloorLevel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFloorLevel.setText("Floor Level");
 
         javax.swing.GroupLayout PanelEnemyInfoLayout = new javax.swing.GroupLayout(PanelEnemyInfo);
@@ -327,30 +344,28 @@ public class Main extends javax.swing.JFrame {
         PanelEnemyInfoLayout.setHorizontalGroup(
             PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelEnemyInfoLayout.createSequentialGroup()
-                .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelEnemyInfoLayout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(lblFloorLevel)
-                        .addGap(160, 160, 160)
-                        .addComponent(pBarEnemyHp, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblEnemyHpAndMaxHp))
-                    .addGroup(PanelEnemyInfoLayout.createSequentialGroup()
-                        .addGap(502, 502, 502)
-                        .addComponent(lblEnemyName)))
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGap(287, 287, 287)
+                .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblEnemyNameandLevel, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                    .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblFloorLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pBarEnemyHp, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblEnemyHpAndMaxHp)
+                .addContainerGap(236, Short.MAX_VALUE))
         );
         PanelEnemyInfoLayout.setVerticalGroup(
             PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEnemyInfoLayout.createSequentialGroup()
                 .addContainerGap(8, Short.MAX_VALUE)
-                .addComponent(lblEnemyName)
+                .addComponent(lblEnemyNameandLevel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pBarEnemyHp, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEnemyHpAndMaxHp)
-                    .addComponent(lblFloorLevel))
-                .addGap(29, 29, 29))
+                    .addComponent(lblEnemyHpAndMaxHp))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFloorLevel)
+                .addContainerGap())
         );
 
         jPanel2.add(PanelEnemyInfo);
@@ -378,13 +393,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
            
-    public boolean hasLost() {
-        if((!rex.isDead || !btnRex.isEnabled()) && (!aaron.isDead || !btnAaron.isEnabled()) && (!arth.isDead || !btnArth.isEnabled())) {
-            System.out.println("here hasLost");
-            return false;
-        }
-        return true;
-    }
+
         
     private void btnArthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArthActionPerformed
         // TODO add your handling code here:
@@ -456,6 +465,19 @@ public class Main extends javax.swing.JFrame {
 
     private void generateEnemy(){
         enemy = Enemy.generateEnemy(worldLevel);
+
+    }
+    
+    private void stageChecker(){
+        if (worldLevel <= 10) {
+            stage = "Canteen";
+        } else if (worldLevel <= 20) {
+            stage = "Gymnasium";
+        } else if (worldLevel <= 30) {
+            stage = "Library";
+        } else if (worldLevel <= 40) {
+            stage = "DIT Building";
+        } 
     }
     private void btnBasicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBasicAttackActionPerformed
         // TODO add your handling code here:
@@ -470,6 +492,8 @@ public class Main extends javax.swing.JFrame {
             System.out.println("Enemy is Defeated!!!");
             worldLevel ++;
             generateEnemy();
+            int expGained = enemy.calculateExpReward();
+            Player.addExperience(expGained);            
         }
 
         updateLabelAndBars();        
@@ -547,25 +571,30 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (activeCharacter.equals(arth)) {
             
-            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+//            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
+//            timer.start();
+//            timer.setRepeats(false);
             
-            activeCharacter.dodge();
+            arth.dodge();
+            System.out.println("Arth use Dodge");
+            
         } else if (activeCharacter.equals(aaron)) {
             
-            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+//            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
+//            timer.start();
+//            timer.setRepeats(false);
             
-            activeCharacter.dodge();
+            aaron.dodge();
+            System.out.println("Aaron use Dodge");
+            
         } else if (activeCharacter.equals(rex)) {
             
-            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+//            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
+//            timer.start();
+//            timer.setRepeats(false);
             
-            activeCharacter.dodge();
+            rex.dodge();
+            System.out.println("Rex use Dodge");
         }        
     }//GEN-LAST:event_btnDodgeActionPerformed
 
@@ -575,15 +604,15 @@ public class Main extends javax.swing.JFrame {
 
     private void actionTurnHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionTurnHandler
         enemyTakeTurn();
-        System.out.println("Here comes the sun toodoodoodoo");
     }//GEN-LAST:event_actionTurnHandler
 
     public void unlockCharacter(){
         
-        if (worldLevel == 11) {
+        if (worldLevel == 10) {
             btnRex.setEnabled(true);
             btnRex.setVisible(true);
-        } else if (worldLevel == 21) {
+        }
+        if (worldLevel == 20) {
             btnAaron.setEnabled(true);
             btnAaron.setVisible(true);
         }
@@ -591,6 +620,7 @@ public class Main extends javax.swing.JFrame {
     public void updateLabelAndBars(){
         
         checkActiveCharacterHp();        
+        stageChecker();
         
         int percentageActiveCharacterHp = (activeCharacter.hp * 100) / activeCharacter.maxHp;
         int percentageActiveCharacterMana = (activeCharacter.mana * 100) / activeCharacter.maxMana;
@@ -599,8 +629,10 @@ public class Main extends javax.swing.JFrame {
         lblActiveCharacter.setText(activeCharacter.name);
         lblActiveCharacterHpAndMaxHp.setText(activeCharacter.hp + "/" + activeCharacter.maxHp);
         lblActiveCharacterManaAndMaxMana.setText(activeCharacter.mana + "/" + activeCharacter.maxMana);
+        lblActiveCharacterXpCurrAndMax.setText(activeCharacter.getExpCurrent() + "/" + activeCharacter.getExpThreshold());
+        lblPlayersLevel.setText("Level: " + Player.getLevel());
         
-        lblEnemyName.setText(enemy.name);
+        lblEnemyNameandLevel.setText(enemy.name);
         lblEnemyHpAndMaxHp.setText(enemy.hp + "/" + enemy.maxHp);
         
         pBarActiveCharacterHP.setValue(percentageActiveCharacterHp);
@@ -608,7 +640,8 @@ public class Main extends javax.swing.JFrame {
         pBarEnemyHp.setValue(percentageEnemyHp);
         
         
-        lblFloorLevel.setText("" + worldLevel);
+        
+        lblFloorLevel.setText("Stage: "+ stage +" | Level: " + worldLevel);
 
         
     }
@@ -668,10 +701,6 @@ public class Main extends javax.swing.JFrame {
                 throw new AssertionError();
         }
         
-        if(hasLost()) {
-            System.out.println("You lost lmao");
-            System.exit(0);
-        }
     }
     
     private int basicAttackDamageDealt(){
@@ -740,9 +769,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblActiveCharacter;
     private javax.swing.JLabel lblActiveCharacterHpAndMaxHp;
     private javax.swing.JLabel lblActiveCharacterManaAndMaxMana;
+    private javax.swing.JLabel lblActiveCharacterXpCurrAndMax;
     private javax.swing.JLabel lblEnemyHpAndMaxHp;
-    private javax.swing.JLabel lblEnemyName;
+    private javax.swing.JLabel lblEnemyNameandLevel;
     private javax.swing.JLabel lblFloorLevel;
+    private javax.swing.JLabel lblPlayersLevel;
     private javax.swing.JLabel lblSkill2Icon;
     private javax.swing.JProgressBar pBarActiveCharacterHP;
     private javax.swing.JProgressBar pBarActiveCharacterMana;

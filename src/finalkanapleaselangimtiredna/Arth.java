@@ -9,8 +9,8 @@ package finalkanapleaselangimtiredna;
 public class Arth extends Player{
 
     public Arth(PlayerInventory inv) {
-        // super(1, 1, "Arth", 500, 500, 350, 350, 0, 90, 40, 5, 5, 10, 15, inv);
-        super("Arth", 500, 350, 0, 90, inv);
+        super(1, "Arth", 500, 500, 350, 350, 0, 90, 40, 5, 5, 10, 15, inv);
+        //super("Arth", 500, 350, 0, 90, inv);
     }
     
     @Override
@@ -20,7 +20,7 @@ public class Arth extends Player{
     
     @Override
     public void dodge(){
-        
+        System.out.println("Scolio Dodge");
     }
     
     @Override

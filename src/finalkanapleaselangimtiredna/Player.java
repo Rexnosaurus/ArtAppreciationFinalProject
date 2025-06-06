@@ -5,14 +5,24 @@
 
 package finalkanapleaselangimtiredna;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 public class Player extends Entity{
     private PlayerInventory inventory;
     boolean  isDodging = false;
-    int expThreshold = 100;
-    int currentExp = 0;
+    private static int level = 1;
+    private static int experiencePointsCurrent = 49;
+    private static int experiencePointsThreshold = 50;
+    
+    
     boolean isDead;
-    public Player(int playerLevel, int experiencePoints, String playerName, int playerHp, int playerMaxHp, int playerMana, int playerMaxMana, int playerDefense, int playerBaseAttack,
+    
+    private static final List<Player> players = new ArrayList<>();
+    
+    public Player(int playerLevel, String playerName, int playerHp, int playerMaxHp, int playerMana, int playerMaxMana, int playerDefense, int playerBaseAttack,
             int playerCritDamage, double playerCritRate, int playerDodgeCooldown, int playerSkill1Cooldown, int playerSkill2Cooldown, PlayerInventory inv) {
         super(1, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         
@@ -31,28 +41,56 @@ public class Player extends Entity{
         this.skill2Cooldown = playerSkill2Cooldown;
         this.inventory = inv;
         this.isDead = false;
+        
+        players.add(this);
     }
     
-    public Player(String name, int baseHP, int baseMP, int def, int atk, PlayerInventory inv) {
-        super(
-        1,
-        0,
-        name,
-        baseHP,
-        baseHP,
-        baseMP,
-        baseMP,
-        def,
-        atk,
-        50,
-        5,
-        5,
-        10,
-        15
-        );
+    public static void addExperience(int exp) {
+        experiencePointsCurrent += exp;
+        System.out.println("Gained " + exp + " EXP. Current EXP: " + experiencePointsCurrent + "/" + experiencePointsThreshold);
+
+    while (experiencePointsCurrent >= experiencePointsThreshold) {
         
-        this.inventory = inv;
+        experiencePointsCurrent -= experiencePointsThreshold;
+        level++;
+        experiencePointsThreshold = (int)(experiencePointsThreshold * 1.5);
+        System.out.println("Level up! New Level: " + level);
+        levelUpAllCharcters();
+        
     }
+
+    }
+
+    private static void levelUpAllCharcters() {
+        
+        
+        for (Player p : players) {
+            p.levelUpStats();
+        }
+    }
+
+    public void levelUpStats() {
+        
+        
+        
+        
+        this.maxHp += 50;
+        this.hp = this.maxHp;
+        
+        this.maxMana += 25;
+        this.mana = this.maxMana;
+        
+        this.defense += 5;
+        this.baseAttack += 10;
+        this.critDamage += 5;
+        this.critRate += 1;
+        
+        System.out.println(name + " leveled up to level " + this.level + "!");
+    }
+
+    public static int getLevel() {
+        return level;
+    }    
     
     public void useItem(Item item) {
         inventory.useItem(item);
@@ -126,6 +164,16 @@ public class Player extends Entity{
         System.out.println("Crit Rate: " + critRate);
         
     }
+    
+    public int getExpThreshold(){
+        return experiencePointsThreshold;
+    }
+    
+    public int getExpCurrent(){
+        return experiencePointsCurrent;
+    }
+    
+    
     
     
 }

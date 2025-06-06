@@ -9,7 +9,7 @@ package finalkanapleaselangimtiredna;
 public class Rex extends Player{
 
     public Rex(PlayerInventory inv) {
-        super(1, 1, "Rex", 500, 500, 250, 250, 0, 100, 50, 5, 5, 10, 15, inv);
+        super(1, "Rex", 500, 500, 250, 250, 0, 100, 50, 5, 5, 10, 15, inv);
         
     }
     

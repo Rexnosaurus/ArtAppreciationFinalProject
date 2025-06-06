@@ -5,6 +5,8 @@
 
 package finalkanapleaselangimtiredna;
 
+import java.util.Random;
+
 
 public class Enemy extends Entity{
     
@@ -90,24 +92,37 @@ public class Enemy extends Entity{
     }
     
     public static Enemy generateEnemy(int level){
+        
+        
         String enemyName;
-        int enemyMaxHp = 300 + level * 50;
+
+        int baseHp = 100;         
+        int baseMana = 75;        
+        int baseDefense = 1;      
+        int baseAttack = 10;      
+        int baseCritDamage = 10;  
+        int baseCritRate = 1;     
+
+        
+        int multiplier = 1 + (level / 10);  // every 10th levels, multiplier increases by 1
+
+        int enemyMaxHp = baseHp + level * 40 * multiplier;
         int enemyHp = enemyMaxHp;
-        int enemyMaxMana = 150 + level * 50;
+        int enemyMaxMana = baseMana + level * 20 * multiplier;
         int enemyMana = enemyMaxMana;
-        int enemyDefense = 2 + level * 20;
-        int enemyBaseAttack = 50 + level * 50;
-        int enemyCritDamage = 50 + level * 2;
-        int enemtCritRate = 5 + (level / 2);
+        int enemyDefense = baseDefense + level * 5 * multiplier;
+        int enemyBaseAttack = baseAttack + level * 3 * multiplier;
+        int enemyCritDamage = baseCritDamage + (level / 2) * multiplier;
+        int enemyCritRate = baseCritRate + (level / 3) * multiplier;
         
         if (level < 10) {
             if (level % 2 == 0) {
-                enemyName = "Alden Minion";
+                enemyName = "Sol Minion";
             } else {
-                enemyName = "Alden Elite Minion";
+                enemyName = "Sol Elite Minion";
             }
         } else if (level == 10) {
-            enemyName = "Alden Richarge";
+            enemyName = "Sol (The Overheating Android)";
             enemyHp *= 2;
             enemyMaxHp *= 2;
             enemyMaxMana *= 2;
@@ -115,28 +130,38 @@ public class Enemy extends Entity{
         } else if (level < 20) {
             
             if (level % 2 == 0) {
-                enemyName = "Sophie Minion";
+                enemyName = "PIT1 Minion";
             } else {
-                enemyName = "Sophie Elite Minion";
+                enemyName = "PIT1 Elite Minion";
             }
         } else if (level == 20) {
-            enemyName = "Sophie and DJMOD";
+            enemyName = "PIT1 (The GymRat Android)";
             enemyMaxHp *= 2;
             enemyMaxMana *= 2;
         } else if (level < 30) {
             if (level % 2 == 0) {
-                enemyName = "HereComeTheSun's Minion";
+                enemyName = "FIL's Minion";
             } else {
-                enemyName = "HereComeTheSun's Minion";
+                enemyName = "FIL's Minion";
             }
         } else if (level == 30) {
-            enemyName = "HereComeTheSun";
+            enemyName = "FIL (The Ruler)";
+            enemyMaxHp *= 2;
+            enemyMaxMana *= 2;
+        } else if (level < 30) {
+            if (level % 2 == 0) {
+                enemyName = "SPC's Minion";
+            } else {
+                enemyName = "SPC's Minion";
+            }
+        } else if (level == 30) {
+            enemyName = "Shape Property Calculator (The Almighty SPC)";
             enemyMaxHp *= 2;
             enemyMaxMana *= 2;
         } else {
             enemyName = "Unknown Enemy";
         }       
-        return new Enemy(level, enemyName, enemyHp, enemyMaxHp, enemyMana, enemyMaxMana, enemyDefense, enemyBaseAttack, enemyCritDamage, enemtCritRate, 0, 0, 0, 1);
+        return new Enemy(level, enemyName, enemyHp, enemyMaxHp, enemyMana, enemyMaxMana, enemyDefense, enemyBaseAttack, enemyCritDamage, enemyCritRate, 0, 0, 0, 1);
         
         
     }
@@ -151,6 +176,18 @@ public class Enemy extends Entity{
     void dodge(Entity activeCharacter) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public int calculateExpReward() {
+    Random rand = new Random();
+    int baseExpMin = 10;  // minimum EXP per level
+    int baseExpMax = 20;  // maximum EXP per level
+    
+    int minExp = this.level * baseExpMin;
+    int maxExp = this.level * baseExpMax;
+    
+    // Return random EXP between minExp and maxExp (inclusive)
+    return rand.nextInt(maxExp - minExp + 1) + minExp;
+}
     
     
     
