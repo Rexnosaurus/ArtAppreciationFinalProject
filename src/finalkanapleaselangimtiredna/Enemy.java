@@ -93,7 +93,6 @@ public class Enemy extends Entity{
     
     public static Enemy generateEnemy(int level){
         
-        
         String enemyName;
 
         int baseHp = 100;         
