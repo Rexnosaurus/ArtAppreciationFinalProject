@@ -91,6 +91,8 @@ public class Enemy extends Entity{
         
     }
     
+
+    
     public static Enemy generateEnemy(int level){
         
         String enemyName;
@@ -163,6 +165,10 @@ public class Enemy extends Entity{
         return new Enemy(level, enemyName, enemyHp, enemyMaxHp, enemyMana, enemyMaxMana, enemyDefense, enemyBaseAttack, enemyCritDamage, enemyCritRate, 0, 0, 0, 1);
         
         
+    }
+    
+    public int getLevel(){
+        return level;
     }
     
     @Override

@@ -26,6 +26,9 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     int worldLevel = 1;
+
+    
+    
     String stage; 
    
     PlayerInventory sharedInventory = new PlayerInventory();
@@ -216,10 +219,11 @@ public class Main extends javax.swing.JFrame {
             PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelPlayerInfoLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblActiveCharacter)
-                    .addComponent(lblPlayersLevel)
-                    .addComponent(lblActiveCharacterXpCurrAndMax))
+                .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPlayersLevel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblActiveCharacter)
+                        .addComponent(lblActiveCharacterXpCurrAndMax)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelPlayerInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPlayerInfoLayout.createSequentialGroup()
@@ -268,6 +272,11 @@ public class Main extends javax.swing.JFrame {
         btnSkill1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 actionTurnHandler(evt);
+            }
+        });
+        btnSkill1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSkill1ActionPerformed(evt);
             }
         });
 
@@ -347,9 +356,8 @@ public class Main extends javax.swing.JFrame {
                 .addGap(287, 287, 287)
                 .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblEnemyNameandLevel, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
-                    .addGroup(PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblFloorLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pBarEnemyHp, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))
+                    .addComponent(lblFloorLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pBarEnemyHp, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblEnemyHpAndMaxHp)
                 .addContainerGap(236, Short.MAX_VALUE))
@@ -385,131 +393,16 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-        Timer timer = new Timer(4000, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            lblSkill2Icon.setIcon(null);
-            }
-        });
-           
-
-        
-    private void btnArthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArthActionPerformed
-        // TODO add your handling code here:
-        arth.getStats();
- 
-        btnArth.setSelected(true);
-        btnAaron.setSelected(false);
-        btnRex.setSelected(false);
-        
-        sharedInventory.setActiveCharacter(activeCharacter);
-        btnSkill1.setText("<html>Scolio<br>Attack<html>");
-        btnSkill2.setText("Hackerman");
-        if(activeCharacter != arth) {
-            enemyTakeTurn();
-        }
-        activeCharacter = arth;
-        updateLabelAndBars();
-    }//GEN-LAST:event_btnArthActionPerformed
-
-    private void btnRexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRexActionPerformed
-        // TODO add your handling code here:
-        rex.getStats();
- 
-        btnRex.setSelected(true);
-        btnArth.setSelected(false);
-        btnAaron.setSelected(false);
-        
-        sharedInventory.setActiveCharacter(activeCharacter);
-        btnSkill1.setText("<html>Mac<br>Attack<html>");
-        btnSkill2.setText("<html>Money<br>Attack<html>");
-        if(activeCharacter != rex) {
-            enemyTakeTurn();
-        }
-        activeCharacter = rex;
-        updateLabelAndBars();
-    }//GEN-LAST:event_btnRexActionPerformed
-
-    private void btnAaronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAaronActionPerformed
-        // TODO add your handling code here:
-        aaron.getStats();
-        
-        btnAaron.setSelected(true);
-        btnRex.setSelected(false);
-        btnArth.setSelected(false);
-        
-        sharedInventory.setActiveCharacter(activeCharacter);
-        btnSkill1.setText("<html>Instant<br>Sleep<html>");
-        btnSkill2.setText("BadLuck");
-        if(activeCharacter != aaron) {
-            enemyTakeTurn();
-        }
-        activeCharacter = aaron;
-        updateLabelAndBars();
-    }//GEN-LAST:event_btnAaronActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        enemy.getStats();
-        worldLevel ++;
-        enemy = Enemy.generateEnemy(worldLevel);
-        unlockCharacter();
-        
-        updateLabelAndBars();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void ShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShopActionPerformed
-        shop.setVisible(true);
-    }//GEN-LAST:event_ShopActionPerformed
-
-    private void generateEnemy(){
-        enemy = Enemy.generateEnemy(worldLevel);
-
-    }
-    
-    private void stageChecker(){
-        if (worldLevel <= 10) {
-            stage = "Canteen";
-        } else if (worldLevel <= 20) {
-            stage = "Gymnasium";
-        } else if (worldLevel <= 30) {
-            stage = "Library";
-        } else if (worldLevel <= 40) {
-            stage = "DIT Building";
-        } 
-    }
-    private void btnBasicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBasicAttackActionPerformed
-        // TODO add your handling code here:
-        
-        updateLabelAndBars();        
-        
-        int damageDealt = basicAttackDamageDealt() - enemy.defense;
-        
-        enemy.removeHp(damageDealt);
-        
-        if (enemy.isDead) {
-            System.out.println("Enemy is Defeated!!!");
-            worldLevel ++;
-            generateEnemy();
-            int expGained = enemy.calculateExpReward();
-            Player.addExperience(expGained);            
-        }
-
-        updateLabelAndBars();        
-        
-        enemyTakeTurn();
-    }//GEN-LAST:event_btnBasicAttackActionPerformed
 
     private void btnSkill2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkill2ActionPerformed
         // TODO add your handling code here:
-        
+
         if (activeCharacter.equals(arth)) {
-            
+
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
             timer.start();
             timer.setRepeats(false);
-            
+
             try {
                 InputStream is = getClass().getResourceAsStream("/Music/arthTheme.wav");
                 if (is == null) {
@@ -525,11 +418,11 @@ public class Main extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         } else if (activeCharacter.equals(aaron)) {
-            
+
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
             timer.start();
             timer.setRepeats(false);
-            
+
             try {
                 InputStream is = getClass().getResourceAsStream("/Music/aaronTheme.wav");
                 if (is == null) {
@@ -545,11 +438,11 @@ public class Main extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         } else if (activeCharacter.equals(rex)) {
-            
+
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
             timer.start();
             timer.setRepeats(false);
-            
+
             try {
                 InputStream is = getClass().getResourceAsStream("/Music/aaronTheme.wav");
                 if (is == null) {
@@ -567,45 +460,183 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSkill2ActionPerformed
 
+    private void actionTurnHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionTurnHandler
+        enemyTakeTurn();
+    }//GEN-LAST:event_actionTurnHandler
+
     private void btnDodgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodgeActionPerformed
         // TODO add your handling code here:
         if (activeCharacter.equals(arth)) {
-            
-//            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
-//            timer.start();
-//            timer.setRepeats(false);
-            
+
+            //            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
+            //            timer.start();
+            //            timer.setRepeats(false);
+
             arth.dodge();
             System.out.println("Arth use Dodge");
-            
+
         } else if (activeCharacter.equals(aaron)) {
-            
-//            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
-//            timer.start();
-//            timer.setRepeats(false);
-            
+
+            //            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
+            //            timer.start();
+            //            timer.setRepeats(false);
+
             aaron.dodge();
             System.out.println("Aaron use Dodge");
-            
+
         } else if (activeCharacter.equals(rex)) {
-            
-//            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
-//            timer.start();
-//            timer.setRepeats(false);
-            
+
+            //            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
+            //            timer.start();
+            //            timer.setRepeats(false);
+
             rex.dodge();
             System.out.println("Rex use Dodge");
-        }        
+        }
     }//GEN-LAST:event_btnDodgeActionPerformed
+
+    private void btnBasicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBasicAttackActionPerformed
+        // TODO add your handling code here:
+
+        updateLabelAndBars();
+
+        int damageDealt = basicAttackDamageDealt() - enemy.defense;
+
+        enemy.removeHp(damageDealt);
+
+        if (enemy.isDead) {
+            System.out.println("Enemy is Defeated!!!");
+            worldLevel ++;
+            generateEnemy();
+            int expGained = enemy.calculateExpReward();
+            Player.addExperience(expGained);
+        }
+
+        updateLabelAndBars();
+
+        enemyTakeTurn();
+    }//GEN-LAST:event_btnBasicAttackActionPerformed
 
     private void InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InventoryActionPerformed
         inventory.setVisible(true);
     }//GEN-LAST:event_InventoryActionPerformed
 
-    private void actionTurnHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionTurnHandler
-        enemyTakeTurn();
-    }//GEN-LAST:event_actionTurnHandler
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        enemy.getStats();
+        worldLevel ++;
+        enemy = Enemy.generateEnemy(worldLevel);
+        unlockCharacter();
 
+        enemyLevelRandomizer();
+        updateLabelAndBars();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShopActionPerformed
+        shop.setVisible(true);
+    }//GEN-LAST:event_ShopActionPerformed
+
+    private void btnAaronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAaronActionPerformed
+        // TODO add your handling code here:
+        aaron.getStats();
+
+        btnAaron.setSelected(true);
+        btnRex.setSelected(false);
+        btnArth.setSelected(false);
+
+        sharedInventory.setActiveCharacter(activeCharacter);
+        btnSkill1.setText("<html>Instant<br>Sleep<html>");
+        btnSkill2.setText("BadLuck");
+        if(activeCharacter != aaron) {
+            enemyTakeTurn();
+        }
+        activeCharacter = aaron;
+        updateLabelAndBars();
+    }//GEN-LAST:event_btnAaronActionPerformed
+
+    private void btnRexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRexActionPerformed
+        // TODO add your handling code here:
+        rex.getStats();
+
+        btnRex.setSelected(true);
+        btnArth.setSelected(false);
+        btnAaron.setSelected(false);
+
+        sharedInventory.setActiveCharacter(activeCharacter);
+        btnSkill1.setText("<html>Mac<br>Attack<html>");
+        btnSkill2.setText("<html>Money<br>Attack<html>");
+        if(activeCharacter != rex) {
+            enemyTakeTurn();
+        }
+        activeCharacter = rex;
+        updateLabelAndBars();
+    }//GEN-LAST:event_btnRexActionPerformed
+
+    private void btnArthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArthActionPerformed
+        // TODO add your handling code here:
+        arth.getStats();
+
+        btnArth.setSelected(true);
+        btnAaron.setSelected(false);
+        btnRex.setSelected(false);
+
+        sharedInventory.setActiveCharacter(activeCharacter);
+        btnSkill1.setText("<html>Scolio<br>Attack<html>");
+        btnSkill2.setText("Hackerman");
+        if(activeCharacter != arth) {
+            enemyTakeTurn();
+        }
+        activeCharacter = arth;
+        updateLabelAndBars();
+    }//GEN-LAST:event_btnArthActionPerformed
+
+    private void btnSkill1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkill1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSkill1ActionPerformed
+    
+        Timer timer = new Timer(4000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            lblSkill2Icon.setIcon(null);
+            }
+        });
+           
+
+        
+    public int enemyLevelRandomizer(){
+        int minEnemyLevel = 0;
+        
+        if (Player.getLevel() == 1) {
+            minEnemyLevel = Player.getLevel() + 0;
+        } else if (Player.getLevel() != 1) {
+            minEnemyLevel = Player.getLevel() - 1;
+        }
+        int maxEnemyLevel = Player.getLevel() + 1;
+        
+        int randomEnemyLevel = (int) (Math.random()*maxEnemyLevel+minEnemyLevel);
+        
+        return randomEnemyLevel;
+    }
+    private void generateEnemy(){
+        enemy = Enemy.generateEnemy(enemyLevelRandomizer());
+        for (int i = 0; i < 10; i++) {
+            System.out.println(enemyLevelRandomizer());
+        }
+
+    }
+    
+    private void stageChecker(){
+        if (worldLevel <= 10) {
+            stage = "Canteen";
+        } else if (worldLevel <= 20) {
+            stage = "Gymnasium";
+        } else if (worldLevel <= 30) {
+            stage = "Library";
+        } else if (worldLevel <= 40) {
+            stage = "DIT Building";
+        } 
+    }
     public void unlockCharacter(){
         
         if (worldLevel == 10) {
@@ -632,17 +663,14 @@ public class Main extends javax.swing.JFrame {
         lblActiveCharacterXpCurrAndMax.setText(activeCharacter.getExpCurrent() + "/" + activeCharacter.getExpThreshold());
         lblPlayersLevel.setText("Level: " + Player.getLevel());
         
-        lblEnemyNameandLevel.setText(enemy.name);
+        lblEnemyNameandLevel.setText(enemy.name + "|" + enemyLevelRandomizer());
         lblEnemyHpAndMaxHp.setText(enemy.hp + "/" + enemy.maxHp);
         
         pBarActiveCharacterHP.setValue(percentageActiveCharacterHp);
         pBarActiveCharacterMana.setValue(percentageActiveCharacterMana);
         pBarEnemyHp.setValue(percentageEnemyHp);
         
-        
-        
         lblFloorLevel.setText("Stage: "+ stage +" | Level: " + worldLevel);
-
         
     }
     
@@ -681,7 +709,6 @@ public class Main extends javax.swing.JFrame {
             
             case 1:
                 enemy.basicAttack(activeCharacter);
-                System.out.println("PING");
                 break;
                 
             case 2:
