@@ -513,8 +513,10 @@ public class Main extends javax.swing.JFrame {
         }
 
         updateLabelAndBars();
-
+        
         enemyTakeTurn();
+        
+        System.out.println("Enemy Current Level: "+enemy.getLevel());
     }//GEN-LAST:event_btnBasicAttackActionPerformed
 
     private void InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InventoryActionPerformed
@@ -618,12 +620,10 @@ public class Main extends javax.swing.JFrame {
         
         return randomEnemyLevel;
     }
+    
     private void generateEnemy(){
-        enemy = Enemy.generateEnemy(enemyLevelRandomizer());
-        for (int i = 0; i < 10; i++) {
-            System.out.println(enemyLevelRandomizer());
-        }
-
+        int enemyLevel = enemyLevelRandomizer();
+        enemy = Enemy.generateEnemy(enemyLevel);
     }
     
     private void stageChecker(){
@@ -663,7 +663,7 @@ public class Main extends javax.swing.JFrame {
         lblActiveCharacterXpCurrAndMax.setText(activeCharacter.getExpCurrent() + "/" + activeCharacter.getExpThreshold());
         lblPlayersLevel.setText("Level: " + Player.getLevel());
         
-        lblEnemyNameandLevel.setText(enemy.name + "|" + enemyLevelRandomizer());
+        lblEnemyNameandLevel.setText(enemy.name + "|" + enemy.getLevel());
         lblEnemyHpAndMaxHp.setText(enemy.hp + "/" + enemy.maxHp);
         
         pBarActiveCharacterHP.setValue(percentageActiveCharacterHp);

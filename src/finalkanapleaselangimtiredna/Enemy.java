@@ -12,9 +12,10 @@ public class Enemy extends Entity{
     
     public boolean isDodging = false;
 
-    public Enemy(int level, String enemyName, int enemyHp, int enemyMaxHp, int enemyMana, int enemyMaxMana, int enemyDefense, int enemyBaseAttack, int enemyCritDamage, int enemyCritRate, int enemyDodgeCooldown, int enemySkill1Cooldown, int enemySkill2Cooldown, int multiplier) {
+    public Enemy(int lvl, String enemyName, int enemyHp, int enemyMaxHp, int enemyMana, int enemyMaxMana, int enemyDefense, int enemyBaseAttack, int enemyCritDamage, int enemyCritRate, int enemyDodgeCooldown, int enemySkill1Cooldown, int enemySkill2Cooldown, int multiplier) {
         super(1, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 2, 5, 10);
         
+        this.level = lvl;
         this.name = enemyName;
         this.hp = enemyHp;
         this.maxHp = enemyMaxHp;
@@ -93,9 +94,10 @@ public class Enemy extends Entity{
     
 
     
-    public static Enemy generateEnemy(int level){
-        
+    public static Enemy generateEnemy(int lvl){
+        int level = lvl;
         String enemyName;
+        
 
         int baseHp = 100;         
         int baseMana = 75;        
