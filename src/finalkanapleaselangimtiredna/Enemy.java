@@ -35,13 +35,19 @@ public class Enemy extends Entity{
     
     public void basicAttack(Entity activeCharacter){
         int damage = this.baseAttack;
-        activeCharacter.removeHp(damage);
-        System.out.println("Enemy do a Basic Attack");
         
+        
+        if (activeCharacter.isDodging == false) {
+            activeCharacter.removeHp(damage);
+            System.out.println("Enemy do a Basic Attack and deal " + damage + " Damage");
+            
+        } else if (activeCharacter.isDodging) {
+            System.out.println(activeCharacter.name + " Dodge The Attack");
+        }
+ 
     }
     
-    @Override
-    public void dodge(){
+    public void dodge(Entity activeCharacter){
         
         isDodging = true;
         System.out.println(name + " is dodging the next attack.");
@@ -95,14 +101,14 @@ public class Enemy extends Entity{
 
     
     public static Enemy generateEnemy(int lvl){
+        
         int level = lvl;
         String enemyName;
-        
 
-        int baseHp = 100;         
+        int baseHp = 400;         
         int baseMana = 75;        
         int baseDefense = 1;      
-        int baseAttack = 10;      
+        int baseAttack = 50;      
         int baseCritDamage = 10;  
         int baseCritRate = 1;     
 
@@ -129,7 +135,6 @@ public class Enemy extends Entity{
             enemyHp *= 2;
             enemyMaxHp *= 2;
             enemyMaxMana *= 2;
-            enemyMaxMana *= 2;
         } else if (level < 20) {
             
             if (level % 2 == 0) {
@@ -151,13 +156,13 @@ public class Enemy extends Entity{
             enemyName = "FIL (The Ruler)";
             enemyMaxHp *= 2;
             enemyMaxMana *= 2;
-        } else if (level < 30) {
+        } else if (level < 40) {
             if (level % 2 == 0) {
                 enemyName = "SPC's Minion";
             } else {
                 enemyName = "SPC's Minion";
             }
-        } else if (level == 30) {
+        } else if (level == 40) {
             enemyName = "Shape Property Calculator (The Almighty SPC)";
             enemyMaxHp *= 2;
             enemyMaxMana *= 2;
@@ -165,6 +170,7 @@ public class Enemy extends Entity{
             enemyName = "Unknown Enemy";
         }       
         return new Enemy(level, enemyName, enemyHp, enemyMaxHp, enemyMana, enemyMaxMana, enemyDefense, enemyBaseAttack, enemyCritDamage, enemyCritRate, 0, 0, 0, 1);
+        
         
         
     }
@@ -178,11 +184,9 @@ public class Enemy extends Entity{
         System.out.println("=====" + name + "=====");
         System.out.println("Hp: " + hp);
         System.out.println("Mana: " + mana);
+        System.out.println("Level: " + level);
     }
 
-    void dodge(Entity activeCharacter) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     public int calculateExpReward() {
     Random rand = new Random();

@@ -16,15 +16,17 @@ public class Entity {
     int maxMana;
     int defense;
     int baseAttack;
-    int critDamage;
+    double critDamage;
     double critRate;
     int dodgeCooldown;
     int skill1Cooldown;
     int skill2Cooldown;
     double multiplier;
     boolean isDead;
+    boolean isDodging;
+    double damagedealt;
 
-    public Entity(int level, int experiencePoints, String name, int hp, int maxHp, int mana, int maxMana, int defense, int baseAttack, int critDamage, double critRate, int dodgeCooldown, int skill1Cooldown, int skill2Cooldown) {
+    public Entity(int level, int experiencePoints, String name, int hp, int maxHp, int mana, int maxMana, int defense, int baseAttack, double critDamage, double critRate, int dodgeCooldown, int skill1Cooldown, int skill2Cooldown) {
         this.level = level;
         this.name = name;
         this.hp = hp;

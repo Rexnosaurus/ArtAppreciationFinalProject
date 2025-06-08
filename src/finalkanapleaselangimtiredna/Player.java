@@ -12,18 +12,17 @@ import java.util.List;
 
 public class Player extends Entity{
     private PlayerInventory inventory;
-    boolean  isDodging = false;
+    
     private static int level = 1;
     private static int experiencePointsCurrent = 49;
     private static int experiencePointsThreshold = 50;
-    
     
     boolean isDead;
     
     private static final List<Player> players = new ArrayList<>();
     
     public Player(int playerLevel, String playerName, int playerHp, int playerMaxHp, int playerMana, int playerMaxMana, int playerDefense, int playerBaseAttack,
-            int playerCritDamage, double playerCritRate, int playerDodgeCooldown, int playerSkill1Cooldown, int playerSkill2Cooldown, PlayerInventory inv) {
+            double playerCritDamage, double playerCritRate, int playerDodgeCooldown, int playerSkill1Cooldown, int playerSkill2Cooldown, PlayerInventory inv) {
         super(1, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         
         this.level = playerLevel;
@@ -49,30 +48,25 @@ public class Player extends Entity{
         experiencePointsCurrent += exp;
         System.out.println("Gained " + exp + " EXP. Current EXP: " + experiencePointsCurrent + "/" + experiencePointsThreshold);
 
-    while (experiencePointsCurrent >= experiencePointsThreshold) {
+        while (experiencePointsCurrent >= experiencePointsThreshold) {
         
-        experiencePointsCurrent -= experiencePointsThreshold;
-        level++;
-        experiencePointsThreshold = (int)(experiencePointsThreshold * 1.5);
-        System.out.println("Level up! New Level: " + level);
-        levelUpAllCharcters();
+            experiencePointsCurrent -= experiencePointsThreshold;
+            level++;
+            experiencePointsThreshold = (int)(experiencePointsThreshold * 1.5);
+            System.out.println("Level up! New Level: " + level);
+            levelUpAllCharcters();
         
-    }
+        }
 
     }
-
-    private static void levelUpAllCharcters() {
-        
-        
+    
+    private static void levelUpAllCharcters() {   
         for (Player p : players) {
             p.levelUpStats();
         }
     }
 
     public void levelUpStats() {
-        
-        
-        
         
         this.maxHp += 50;
         this.hp = this.maxHp;
@@ -82,7 +76,7 @@ public class Player extends Entity{
         
         this.defense += 5;
         this.baseAttack += 10;
-        this.critDamage += 5;
+        this.critDamage += 0.5;
         this.critRate += 1;
         
         System.out.println(name + " leveled up to level " + this.level + "!");
@@ -104,15 +98,13 @@ public class Player extends Entity{
     
     @Override
     public void basicAttack(Enemy enemy){
-        int damage = calculateBasicAttackDamage();
-        enemy.takeDamage(damage);
-        System.out.println(name + " dealt " + damage + " damage with Basic Attack.");        
+
     }
     
+
     @Override
     public void dodge(){
-        isDodging = true;
-        System.out.println(name + " is dodging the next attack.");        
+        
     }
     
     @Override
@@ -126,11 +118,19 @@ public class Player extends Entity{
     }
     
     public int calculateBasicAttackDamage() {
-        int critChance = (int)(Math.random()*100 + 1);
+        int critChance = (int)(Math.random() * 100 + 1);
+        int damage;
+
         if (critChance <= critRate) {
-            return (int)(baseAttack * (1 + critDamage));
+            damage = (int)(baseAttack * (1 + critDamage));
+            System.out.println("Critical hit! Damage: " + damage);
+        } else {
+            damage = baseAttack;
+            System.out.println("Normal hit. Damage: " + damage);
         }
-        return baseAttack;
+        return damage;
+
+                
     }    
     
     
@@ -150,6 +150,7 @@ public class Player extends Entity{
         }
         
     }
+    
 
     @Override
     public void getStats(){
@@ -172,6 +173,15 @@ public class Player extends Entity{
     public int getExpCurrent(){
         return experiencePointsCurrent;
     }
+    
+    public boolean isDead() {
+        return hp <= 0;
+    }
+    
+    public static List<Player> getPlayers() {
+        return players;
+    }
+    
     
     
     

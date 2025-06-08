@@ -7,29 +7,75 @@ package finalkanapleaselangimtiredna;
 
 
 public class Arth extends Player{
-
+    
+    int turnCount;
+    boolean hackerMan = false;
+    
     public Arth(PlayerInventory inv) {
-        super(1, "Arth", 500, 500, 350, 350, 0, 90, 40, 5, 5, 10, 15, inv);
+        super(1, "Arth", 500, 500, 350, 350, 0, 10, 0.5, 10, 5, 10, 15, inv);
         //super("Arth", 500, 350, 0, 90, inv);
-    }
+        dodgeCooldown = 0;
+        skill1Cooldown = 0;
+        skill2Cooldown = 0;
+    }   
     
     @Override
-    public void basicAttack(){
-
-    }
-    
-    @Override
-    public void dodge(){
-        System.out.println("Scolio Dodge");
-    }
-    
-    @Override
-    public void skill1(){
+    public void basicAttack(Enemy enemy){
+        
+        damagedealt = calculateBasicAttackDamage();
+        enemy.takeDamage((int) damagedealt);
         
     }
     
     @Override
-    public void skill2(){
+    public void dodge(){
+
+        int chance = (int)(Math.random() * 100) + 1;        
+        
+        if (chance <= 80) {
+            isDodging = true;
+            System.out.println("Arth Dodge succeeded!");
+        } else {
+            isDodging = false;
+            System.out.println("Dodge failed!");
+        }
+        
+    }
+    
+    public void skill1(Enemy enemy){
+        System.out.println("Scolio Dodge");
+
+        int chance = (int)(Math.random()*100)+1;        
+    
+        double baseDamage = calculateBasicAttackDamage();
+        damagedealt = baseDamage * 1.5;
+        
+        if (chance <= 80) {
+            isDodging = true;
+            System.out.println("Arth Dodge succeeded and Deal " + damagedealt + "Damage");
+        } else {
+            isDodging = false;
+            System.out.println("Arth dailed to dodge but he Deal " + damagedealt + "Damage");
+        }
+        
+        enemy.takeDamage((int) damagedealt);
+        skill1Cooldown = 10;
+        
+    }
+    
+    public void skill2(Enemy enemy){
+        
+        int damagePerTurn;
+        
+        if (hackerMan) {
+            
+            damagePerTurn = (int) (calculateBasicAttackDamage() * 0.5);
+            damagedealt += damagePerTurn;
+
+            System.out.println("HackerMan deals additional " + damagePerTurn + " this turn");
+        }
+        
+        skill2Cooldown = 15;
         
     }
     
@@ -56,5 +102,9 @@ public class Arth extends Player{
         System.out.println("=====Arth's Stats=====");
         super.getStats();
     }
+    
+    public void resetDodge(){
+        isDodging = false;
+    }    
     
 }

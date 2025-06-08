@@ -5,32 +5,81 @@
 
 package finalkanapleaselangimtiredna;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Aaron extends Player{
 
+    int instantSleepTurnCount;
+    boolean instantSleep = false;
+    
+    int spreadCurseTurnCount;
+    boolean spreadCurse = false;
+    
+    private static final List<Player> players = new ArrayList<>();
+    
     public Aaron(PlayerInventory inv) {
-        super(1, "Aaron", 600, 600, 200, 200, 0, 100, 50, 5, 5, 10, 15, inv);
+        super(1, "Aaron", 600, 600, 200, 200, 0, 15, 0.10, 10, 5, 10, 15, inv);
+        dodgeCooldown = 0;
+        skill1Cooldown = 0;
+        skill2Cooldown = 0;
         
     }
     
     @Override
-    public void basicAttack(){
+    public void basicAttack(Enemy enemy){
 
+        damagedealt = calculateBasicAttackDamage();
+        enemy.takeDamage((int) damagedealt);
+        
     }
     
     @Override
     public void dodge(){
-        
+        int chance = (int)(Math.random() * 100) + 1; 
+        if (chance <= 90) {  
+            isDodging = true;
+            System.out.println("Dodge succeeded!");
+        } else {
+            isDodging = false;
+            System.out.println("Dodge failed!");
+        }        
     }
     
     @Override
     public void skill1(){
-        int instantSleepTurnCount = 5;
-        hp += 50;
+        int healAmount = (int)(this.maxHp * 0.25);
+        System.out.println("Aaron uses Instant Sleep Heal! Healing all characters for " + healAmount + " HP.");
+        
+        for (Player p : Player.getPlayers()) {
+            p.hp = Math.min(p.hp + healAmount, p.maxHp);
+            System.out.println(p.name + " healed for " + healAmount + " HP.");
+        }
+    
+        this.skill1Cooldown = 10;
+        
     }
     
-    @Override
-    public void skill2(){
+    public void skill2(Enemy enemy){
+
+        int damagePerTurn;
+        int healAmount = (int)(this.maxHp * 0.05);
+        
+        if (spreadCurse) {
+            
+            damagePerTurn = (int) (calculateBasicAttackDamage() * 0.55);
+            damagedealt += damagePerTurn;
+
+            System.out.println("Curse deals additional " + damagePerTurn + " this turn");
+            
+            for (Player p : Player.getPlayers()) {
+                p.hp -= healAmount;
+                System.out.println(p.name + " cursed and get damage by " + healAmount + ".");
+            }            
+        }
+        
+        skill2Cooldown = 15;
         
     }
     
@@ -56,5 +105,9 @@ public class Aaron extends Player{
     public void getStats(){
         System.out.println("=====Aaron's Stats=====");
         super.getStats();
+    }
+    
+    public void resetDodge(){
+        isDodging = false;
     }
 }
