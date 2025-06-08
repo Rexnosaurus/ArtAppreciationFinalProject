@@ -45,6 +45,7 @@ public class Shop extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         panelItemInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -53,7 +54,6 @@ public class Shop extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableItems = new javax.swing.JTable();
         panelButtons = new javax.swing.JPanel();
-        btnClose = new javax.swing.JButton();
         btnBuy = new javax.swing.JButton();
         txtCost = new javax.swing.JTextField();
         txtTotalPrice = new javax.swing.JTextField();
@@ -64,7 +64,14 @@ public class Shop extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtName1 = new javax.swing.JTextField();
         mani = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -76,10 +83,12 @@ public class Shop extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelItemInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelItemInfo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Selected Item Image");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelItemInfo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 320));
 
         txtDesc.setColumns(15);
         txtDesc.setLineWrap(true);
@@ -87,28 +96,9 @@ public class Shop extends javax.swing.JFrame {
         txtDesc.setWrapStyleWord(true);
         jScrollPane2.setViewportView(txtDesc);
 
-        javax.swing.GroupLayout panelItemInfoLayout = new javax.swing.GroupLayout(panelItemInfo);
-        panelItemInfo.setLayout(panelItemInfoLayout);
-        panelItemInfoLayout.setHorizontalGroup(
-            panelItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelItemInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelItemInfoLayout.setVerticalGroup(
-            panelItemInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelItemInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panelItemInfo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 330, 360));
 
-        getContentPane().add(panelItemInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 619));
+        getContentPane().add(panelItemInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 690));
 
         panelItemList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -145,29 +135,7 @@ public class Shop extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableItems);
 
-        javax.swing.GroupLayout panelItemListLayout = new javax.swing.GroupLayout(panelItemList);
-        panelItemList.setLayout(panelItemListLayout);
-        panelItemListLayout.setHorizontalGroup(
-            panelItemListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelItemListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelItemListLayout.setVerticalGroup(
-            panelItemListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelItemListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        getContentPane().add(panelItemList, new org.netbeans.lib.awtextra.AbsoluteConstraints(343, 0, -1, -1));
-
         panelButtons.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnClose.setText("Close");
-        panelButtons.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 537, 189, 76));
 
         btnBuy.setText("Buy");
         btnBuy.setEnabled(false);
@@ -176,7 +144,7 @@ public class Shop extends javax.swing.JFrame {
                 btnBuyActionPerformed(evt);
             }
         });
-        panelButtons.add(btnBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 455, 189, 76));
+        panelButtons.add(btnBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 189, 76));
 
         txtCost.setEditable(false);
         txtCost.setText("0");
@@ -185,7 +153,7 @@ public class Shop extends javax.swing.JFrame {
                 txtCostActionPerformed(evt);
             }
         });
-        panelButtons.add(txtCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 110, 50));
+        panelButtons.add(txtCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 110, 50));
 
         txtTotalPrice.setEditable(false);
         txtTotalPrice.addActionListener(new java.awt.event.ActionListener() {
@@ -193,16 +161,19 @@ public class Shop extends javax.swing.JFrame {
                 txtTotalPriceActionPerformed(evt);
             }
         });
-        panelButtons.add(txtTotalPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 400, 110, 50));
+        panelButtons.add(txtTotalPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 480, 110, 50));
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Item Name:");
-        panelButtons.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, 50));
+        panelButtons.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, -1, 50));
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Quantity:");
-        panelButtons.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 350, 60, 50));
+        panelButtons.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, 60, 50));
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Total Price:");
-        panelButtons.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 407, -1, 40));
+        panelButtons.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, -1, 40));
 
         txtQuantity.setModel(new javax.swing.SpinnerNumberModel());
         txtQuantity.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -214,10 +185,11 @@ public class Shop extends javax.swing.JFrame {
                 txtQuantityStateChanged(evt);
             }
         });
-        panelButtons.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 110, 50));
+        panelButtons.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 110, 50));
 
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Item Cost:");
-        panelButtons.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, -1, 50));
+        panelButtons.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, -1, 50));
 
         txtName1.setEditable(false);
         txtName1.addActionListener(new java.awt.event.ActionListener() {
@@ -225,20 +197,38 @@ public class Shop extends javax.swing.JFrame {
                 txtName1ActionPerformed(evt);
             }
         });
-        panelButtons.add(txtName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 110, 50));
+        panelButtons.add(txtName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 110, 50));
 
         mani.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         panelButtons.add(mani, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 40));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCloseActionPerformed(evt);
             }
         });
-        panelButtons.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+        panelButtons.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 610, 189, 76));
 
-        getContentPane().add(panelButtons, new org.netbeans.lib.awtextra.AbsoluteConstraints(741, 0, -1, 619));
+        javax.swing.GroupLayout panelItemListLayout = new javax.swing.GroupLayout(panelItemList);
+        panelItemList.setLayout(panelItemListLayout);
+        panelItemListLayout.setHorizontalGroup(
+            panelItemListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelItemListLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelItemListLayout.setVerticalGroup(
+            panelItemListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelItemListLayout.createSequentialGroup()
+                .addGroup(panelItemListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(panelItemList, new org.netbeans.lib.awtextra.AbsoluteConstraints(335, 0, 870, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -359,6 +349,10 @@ public class Shop extends javax.swing.JFrame {
             btnBuy.setEnabled(false);
         }
     }//GEN-LAST:event_formWindowActivated
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        mainFrame.setContentPane(mainFrame.mainContentPane);
+    }//GEN-LAST:event_btnCloseActionPerformed
 
 
     public void displayItem(){ 

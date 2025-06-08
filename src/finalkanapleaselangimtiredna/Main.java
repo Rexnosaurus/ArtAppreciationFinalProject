@@ -9,6 +9,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import java.awt.Insets;
+import java.awt.Container;
 
 /**
  *
@@ -33,20 +35,39 @@ public class Main extends javax.swing.JFrame {
     
     InputStream music;
     
+    // Frames
     Shop shop;
     Inventory inventory;
     
     ArrayList<Player> allPlayers = new ArrayList<>();
     
+    // Insets
+    Insets mainInsets;
+    Insets shopInsets;
+    Insets invInsets;
+    
+    // Content Panes
+    Container mainContentPane;
+    Container shopContentPane;
+    Container invContentPane;
+    
     public Main() {
         initComponents();
         activeCharacter = arth;
+        
         sharedInventory.setActiveCharacter(activeCharacter);
         sharedInventory.setMoney(500);
+        
         shop = new Shop(sharedInventory);
         shop.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
         inventory = new Inventory(sharedInventory);;
         inventory.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
+        
+        mainInsets = this.getInsets();
+        shopInsets = shop.getInsets();
+        invInsets = inventory.getInsets();
+        
+        // shop.setSize();
         
         shop.setMainFrame(this);
         inventory.setMainFrame(this);
@@ -56,8 +77,15 @@ public class Main extends javax.swing.JFrame {
         btnAaron.setVisible(true);
         btnRex.setVisible(true);
         
+        System.out.println("and that");
         stageChecker();
         updateLabelAndBars();
+        
+
+        
+        mainContentPane = this.getContentPane();
+        shopContentPane = shop.getContentPane();
+        invContentPane = inventory.getContentPane();
     }
 
     Timer timer = new Timer(4000, new ActionListener() {
@@ -107,7 +135,6 @@ public class Main extends javax.swing.JFrame {
         txtTotalDamage = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -177,8 +204,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Inventory, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 601, -1, -1));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(null);
@@ -256,7 +281,9 @@ public class Main extends javax.swing.JFrame {
         );
 
         PanelBattleDoings.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PanelBattleDoings.setLayout(new java.awt.GridLayout(1, 0, 8, 14));
 
+        btnBasicAttack.setBackground(new java.awt.Color(254, 254, 254));
         btnBasicAttack.setText("Basic Attack");
         btnBasicAttack.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -268,7 +295,9 @@ public class Main extends javax.swing.JFrame {
                 btnBasicAttackActionPerformed(evt);
             }
         });
+        PanelBattleDoings.add(btnBasicAttack);
 
+        btnDodge.setBackground(new java.awt.Color(254, 254, 254));
         btnDodge.setText("Dodge");
         btnDodge.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -280,7 +309,9 @@ public class Main extends javax.swing.JFrame {
                 btnDodgeActionPerformed(evt);
             }
         });
+        PanelBattleDoings.add(btnDodge);
 
+        btnSkill1.setBackground(new java.awt.Color(254, 254, 254));
         btnSkill1.setText("Skill1");
         btnSkill1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSkill1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -293,7 +324,9 @@ public class Main extends javax.swing.JFrame {
                 btnSkill1ActionPerformed(evt);
             }
         });
+        PanelBattleDoings.add(btnSkill1);
 
+        btnSkill2.setBackground(new java.awt.Color(254, 254, 254));
         btnSkill2.setText("Skill2");
         btnSkill2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -305,33 +338,7 @@ public class Main extends javax.swing.JFrame {
                 btnSkill2ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout PanelBattleDoingsLayout = new javax.swing.GroupLayout(PanelBattleDoings);
-        PanelBattleDoings.setLayout(PanelBattleDoingsLayout);
-        PanelBattleDoingsLayout.setHorizontalGroup(
-            PanelBattleDoingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelBattleDoingsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBasicAttack, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDodge, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSkill1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSkill2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        PanelBattleDoingsLayout.setVerticalGroup(
-            PanelBattleDoingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelBattleDoingsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PanelBattleDoingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSkill2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSkill1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDodge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBasicAttack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        PanelBattleDoings.add(btnSkill2);
 
         javax.swing.GroupLayout PanelBattlemiscellaneousLayout = new javax.swing.GroupLayout(PanelBattlemiscellaneous);
         PanelBattlemiscellaneous.setLayout(PanelBattlemiscellaneousLayout);
@@ -340,17 +347,16 @@ public class Main extends javax.swing.JFrame {
             .addGroup(PanelBattlemiscellaneousLayout.createSequentialGroup()
                 .addComponent(PanelPlayerInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelBattleDoings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(PanelBattleDoings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelBattlemiscellaneousLayout.setVerticalGroup(
             PanelBattlemiscellaneousLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelPlayerInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PanelBattleDoings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelPlayerInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel2.add(PanelBattlemiscellaneous);
-        PanelBattlemiscellaneous.setBounds(1, 584, 1097, 111);
+        PanelBattlemiscellaneous.setBounds(1, 584, 1100, 108);
 
         PanelEnemyInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -374,7 +380,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(pBarEnemyHp, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblEnemyHpAndMaxHp)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
         PanelEnemyInfoLayout.setVerticalGroup(
             PanelEnemyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,7 +397,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         jPanel2.add(PanelEnemyInfo);
-        PanelEnemyInfo.setBounds(1, 1, 1097, 79);
+        PanelEnemyInfo.setBounds(1, 1, 1100, 77);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -404,9 +410,25 @@ public class Main extends javax.swing.JFrame {
         jPanel3.add(txtTotalDamage, new org.netbeans.lib.awtextra.AbsoluteConstraints(921, 60, 180, 60));
 
         jPanel2.add(jPanel3);
-        jPanel3.setBounds(1, 86, 1097, 490);
+        jPanel3.setBounds(1, 86, 1100, 490);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(91, 0, 1107, 701));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1107, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -613,7 +635,7 @@ public class Main extends javax.swing.JFrame {
 
 
     private void InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InventoryActionPerformed
-        inventory.setVisible(true);
+        this.setContentPane(invContentPane);
     }//GEN-LAST:event_InventoryActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -629,7 +651,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShopActionPerformed
-        shop.setVisible(true);
+        this.setContentPane(shopContentPane);
     }//GEN-LAST:event_ShopActionPerformed
 
     private void btnAaronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAaronActionPerformed

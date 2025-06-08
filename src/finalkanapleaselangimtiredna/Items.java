@@ -41,7 +41,7 @@ public class Items {
             super(
                 1, 
                 "Turon ni Nanay", 
-                "A........", 
+                "", 
                 150, 
                 75
             );    
