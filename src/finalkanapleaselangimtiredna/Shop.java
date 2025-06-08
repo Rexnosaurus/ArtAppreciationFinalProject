@@ -18,6 +18,7 @@ import javax.swing.SpinnerNumberModel;
  * @author rexiepimentelMBP
  */
 public class Shop extends javax.swing.JFrame {
+    PlayerInventory recpInv;
     ShopInventory stock;
     Item currentItem;
     int currentItemIndex;
@@ -30,10 +31,10 @@ public class Shop extends javax.swing.JFrame {
     public Shop(PlayerInventory recipientInventory) {
         stock = new ShopInventory(recipientInventory);
         initComponents();
-        displayItem();
         tableItems.getTableHeader().setResizingAllowed(false);
         tableItems.getTableHeader().setReorderingAllowed(false);
-        mani.setText("Money: "+recipientInventory.getMoney());
+        recpInv = recipientInventory;
+        updateDisplay();
     }
 
     /**
@@ -235,7 +236,7 @@ public class Shop extends javax.swing.JFrame {
 
     public void updateDisplay() {
         displayItem();
-        
+        mani.setText("Money: "+recpInv.getMoney());
     }
     
     public void setInvFrame(Inventory inv) {

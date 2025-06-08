@@ -22,7 +22,7 @@ public class Inventory extends javax.swing.JFrame {
     public Inventory(PlayerInventory inv) {
         initComponents();
         inventory = inv;
-        displayItem();
+        updateDisplay();
     }
 
     /**
@@ -44,6 +44,7 @@ public class Inventory extends javax.swing.JFrame {
         panelButtons = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
         btnUse = new javax.swing.JButton();
+        lblMoney = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -142,14 +143,18 @@ public class Inventory extends javax.swing.JFrame {
             .addGroup(panelButtonsLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(btnUse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblMoney, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addGroup(panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                        .addComponent(btnUse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelButtonsLayout.setVerticalGroup(
             panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonsLayout.createSequentialGroup()
-                .addGap(532, 532, 532)
+                .addContainerGap()
+                .addComponent(lblMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(476, 476, 476)
                 .addComponent(btnUse, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,7 +168,7 @@ public class Inventory extends javax.swing.JFrame {
 
     public void updateDisplay() {
         displayItem();
-        
+        lblMoney.setText("Money: "+inventory.getMoney());
     }
     
     public void setShopFrame(Shop shop) {
@@ -258,6 +263,7 @@ public class Inventory extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblMoney;
     private javax.swing.JPanel panelButtons;
     private javax.swing.JPanel panelItemInfo;
     private javax.swing.JPanel panelItemList;
