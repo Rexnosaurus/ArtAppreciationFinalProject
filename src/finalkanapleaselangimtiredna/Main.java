@@ -863,7 +863,7 @@ public class Main extends javax.swing.JFrame {
             else if(activeCharacter == aaron) {
                 btnAaron.setEnabled(false);
                 btnAaron.setSelected(false);
-                if(!aaron.isDead && aaron.isUnlocked) {
+                if(!arth.isDead && arth.isUnlocked) {
                     activeCharacter = aaron;
                 }
                 else if(!rex.isDead && rex.isUnlocked) {

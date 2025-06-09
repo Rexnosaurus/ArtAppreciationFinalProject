@@ -43,6 +43,7 @@ public class StartMenu extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 48)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("THE THREE MUSKETEERS");
+        jTextField1.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
