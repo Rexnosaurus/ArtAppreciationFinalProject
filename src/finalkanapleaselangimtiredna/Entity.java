@@ -6,7 +6,7 @@
 package finalkanapleaselangimtiredna;
 
 
-public class Entity {
+public abstract class Entity {
     
     int level;
     String name;
@@ -43,18 +43,25 @@ public class Entity {
         this.multiplier = multiplier;
     }
 
-    public void basicAttack(){}
+    public abstract void basicAttack(Entity targetEntity);
+    public abstract void dodge();
+    public abstract void skill1(Entity targetEntity);
+    public abstract void skill2(Entity targetEntity);
     
-    public void dodge(){
+    public void takeDamage(int damage) {
+        if (isDodging) {
+            System.out.println(name + " dodged the attack!");
+            isDodging = false; // dodge only applies to one attack
+            damage = 0;
+        }
         
-    }
-    
-    public void skill1(){
+        hp -= damage;
+        if (hp < 0) {
+            hp = 0;
+            isDead = true;
+        }
         
-    }
-    
-    public void skill2(){
-        
+        System.out.println(name + " has " + hp + " HP left.");
     }
     
     public void addHp(int amt) {
@@ -78,6 +85,7 @@ public class Entity {
         if(hp <= 0) {
             hp = 0;
             isDead = true;
+            System.out.println(this.name+"is dead");
         }
     }
     
@@ -108,9 +116,4 @@ public class Entity {
     public void getStats(){
         
     }
-
-    void basicAttack(Enemy enemy) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

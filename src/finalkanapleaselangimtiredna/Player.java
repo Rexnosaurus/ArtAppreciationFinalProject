@@ -10,19 +10,22 @@ import java.util.List;
 
 
 
-public class Player extends Entity{
-    private PlayerInventory inventory;
+public abstract class Player extends Entity{
     
-    private static int level = 1;
+    private int level = 1;
     private static int experiencePointsCurrent = 49;
     private static int experiencePointsThreshold = 50;
     
+    private int currentExp = 0;
+    private int expThreshold = 50;
+    
     boolean isDead;
+    boolean isUnlocked = true;
     
     private static final List<Player> players = new ArrayList<>();
     
     public Player(int playerLevel, String playerName, int playerHp, int playerMaxHp, int playerMana, int playerMaxMana, int playerDefense, int playerBaseAttack,
-            double playerCritDamage, double playerCritRate, int playerDodgeCooldown, int playerSkill1Cooldown, int playerSkill2Cooldown, PlayerInventory inv) {
+            double playerCritDamage, double playerCritRate, int playerDodgeCooldown, int playerSkill1Cooldown, int playerSkill2Cooldown) {
         super(1, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         
         this.level = playerLevel;
@@ -38,12 +41,30 @@ public class Player extends Entity{
         this.dodgeCooldown = playerDodgeCooldown;
         this.skill1Cooldown = playerSkill1Cooldown;
         this.skill2Cooldown = playerSkill2Cooldown;
-        this.inventory = inv;
         this.isDead = false;
         
         players.add(this);
     }
     
+    @Override
+    public void takeDamage(int damage) {
+        if (isDodging) {
+            System.out.println(name + " dodged the attack!");
+            isDodging = false; // dodge only applies to one attack
+            damage = 0;
+        }
+        
+        hp -= damage;
+        if (hp < 0) {
+            hp = 0;
+            isDead = true;
+            isUnlocked = false;
+        }
+        
+        System.out.println(name + " has " + hp + " HP left.");
+    }
+    
+    /*
     public static void addExperience(int exp) {
         experiencePointsCurrent += exp;
         System.out.println("Gained " + exp + " EXP. Current EXP: " + experiencePointsCurrent + "/" + experiencePointsThreshold);
@@ -59,6 +80,7 @@ public class Player extends Entity{
         }
 
     }
+*/
     
     private static void levelUpAllCharcters() {   
         for (Player p : players) {
@@ -79,43 +101,27 @@ public class Player extends Entity{
         this.critDamage += 0.5;
         this.critRate += 1;
         
+        
+        
         System.out.println(name + " leveled up to level " + this.level + "!");
+        
     }
 
-    public static int getLevel() {
+    public int getLevel() {
         return level;
     }    
     
-    public void useItem(Item item) {
-        inventory.useItem(item);
-    }
-    
-    public void useItem(String itemName) {
-        inventory.useItem(itemName);
-    }
     
     
     
     @Override
-    public void basicAttack(Enemy enemy){
-
-    }
-    
-
+    public abstract void basicAttack(Entity targetEntity);
     @Override
-    public void dodge(){
-        
-    }
-    
+    public abstract void dodge();
     @Override
-    public void skill1(){
-        
-    }
-    
+    public abstract void skill1(Entity targetEntity);
     @Override
-    public void skill2(){
-        
-    }
+    public abstract void skill2(Entity targetEntity);
     
     public int calculateBasicAttackDamage() {
         int critChance = (int)(Math.random() * 100 + 1);
@@ -167,23 +173,35 @@ public class Player extends Entity{
     }
     
     public int getExpThreshold(){
-        return experiencePointsThreshold;
+        return expThreshold;
     }
     
     public int getExpCurrent(){
-        return experiencePointsCurrent;
+        return currentExp;
     }
     
-    public boolean isDead() {
-        return hp <= 0;
+    public void checkForLevelUp() {
+        if(this.currentExp >= expThreshold) {
+            this.level++;
+            currentExp -= expThreshold;
+            expThreshold = (int) Math.round(expThreshold * 1.272);
+            System.out.println(this.name+" Leveled Up!");
+        }
+        
+    }
+    
+    public void gainExp(int amt) {
+        this.currentExp += amt;
+        System.out.println("EXP Gained: "+amt);
+        checkForLevelUp();
+        System.out.println("Current EXP: "+this.currentExp);
     }
     
     public static List<Player> getPlayers() {
         return players;
     }
     
-    
-    
-    
-    
+    public void setUnlocked(boolean b) {
+        isUnlocked = b;
+    }
 }

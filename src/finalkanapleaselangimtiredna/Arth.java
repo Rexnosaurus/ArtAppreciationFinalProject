@@ -11,8 +11,8 @@ public class Arth extends Player{
     int turnCount;
     boolean hackerMan = false;
     
-    public Arth(PlayerInventory inv) {
-        super(1, "Arth", 500, 500, 350, 350, 0, 10, 0.5, 10, 5, 10, 15, inv);
+    public Arth() {
+        super(1, "Arth", 500, 500, 350, 350, 0, 10000, 0.5, 10, 5, 10, 15);
         //super("Arth", 500, 350, 0, 90, inv);
         dodgeCooldown = 0;
         skill1Cooldown = 0;
@@ -20,10 +20,10 @@ public class Arth extends Player{
     }   
     
     @Override
-    public void basicAttack(Enemy enemy){
+    public void basicAttack(Entity targetEntity){
         
         damagedealt = calculateBasicAttackDamage();
-        enemy.takeDamage((int) damagedealt);
+        targetEntity.takeDamage((int) damagedealt);
         
     }
     
@@ -42,7 +42,8 @@ public class Arth extends Player{
         
     }
     
-    public void skill1(Enemy enemy){
+    @Override
+    public void skill1(Entity targetEntity){
         System.out.println("Scolio Dodge");
 
         int chance = (int)(Math.random()*100)+1;        
@@ -58,43 +59,20 @@ public class Arth extends Player{
             System.out.println("Arth dailed to dodge but he Deal " + damagedealt + "Damage");
         }
         
-        enemy.takeDamage((int) damagedealt);
+        targetEntity.takeDamage((int) damagedealt);
         skill1Cooldown = 10;
         
     }
     
-    public void skill2(Enemy enemy){
-        
+    @Override
+    public void skill2(Entity targetEntity){
         int damagePerTurn;
-        
         if (hackerMan) {
-            
             damagePerTurn = (int) (calculateBasicAttackDamage() * 0.5);
             damagedealt += damagePerTurn;
-
             System.out.println("HackerMan deals additional " + damagePerTurn + " this turn");
         }
-        
         skill2Cooldown = 15;
-        
-    }
-    
-    
-    @Override
-    public void reduceCooldown(){
-        
-        if (dodgeCooldown > 0) {
-            dodgeCooldown --;
-        }
-        
-        if (skill1Cooldown > 0) {
-            skill1Cooldown --;
-        }
-        
-        if (skill2Cooldown > 0) {
-            skill2Cooldown --;
-        }
-        
     }
     
     @Override

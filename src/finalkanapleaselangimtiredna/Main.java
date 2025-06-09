@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import java.awt.Insets;
 import java.awt.Container;
+import java.lang.reflect.GenericSignatureFormatError;
 
 /**
  *
@@ -18,33 +19,23 @@ import java.awt.Container;
  */
 public class Main extends javax.swing.JFrame {
 
-    int worldLevel = 1;
+    int worldLevel = 19;
     int totalDamage;
     
     String stage; 
-   
-    PlayerInventory sharedInventory = new PlayerInventory();
     
-    Rex rex = new Rex(sharedInventory);
-    Arth arth = new Arth(sharedInventory);
-    Aaron aaron = new Aaron(sharedInventory);
+    Rex rex = new Rex();
+    Arth arth = new Arth();
+    Aaron aaron = new Aaron();
+    Party playerParty = new Party();
     
-    Enemy enemy = Enemy.generateEnemy(1);
+    Enemy enemy = Enemy.generateEnemy(1, playerParty.getPartyLevel(), worldLevel);
     
     Player activeCharacter;
-    
-    InputStream music;
     
     // Frames
     Shop shop;
     Inventory inventory;
-    
-    ArrayList<Player> allPlayers = new ArrayList<>();
-    
-    // Insets
-    Insets mainInsets;
-    Insets shopInsets;
-    Insets invInsets;
     
     // Content Panes
     Container mainContentPane;
@@ -55,17 +46,16 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         activeCharacter = arth;
         
-        sharedInventory.setActiveCharacter(activeCharacter);
-        sharedInventory.setMoney(500);
+        rex.setUnlocked(false);
+        aaron.setUnlocked(false);
         
-        shop = new Shop(sharedInventory);
+        playerParty.getInventory().setActiveCharacter(activeCharacter);
+        playerParty.getInventory().setMoney(500);
+        
+        shop = new Shop(playerParty.getInventory());
         shop.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
-        inventory = new Inventory(sharedInventory);;
+        inventory = new Inventory(playerParty.getInventory());
         inventory.setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
-        
-        mainInsets = this.getInsets();
-        shopInsets = shop.getInsets();
-        invInsets = inventory.getInsets();
         
         // shop.setSize();
         
@@ -77,7 +67,10 @@ public class Main extends javax.swing.JFrame {
         btnAaron.setVisible(true);
         btnRex.setVisible(true);
         
-        System.out.println("and that");
+        playerParty.addMember(arth);
+        playerParty.addMember(rex);
+        playerParty.addMember(aaron);
+        
         stageChecker();
         updateLabelAndBars();
         
@@ -106,7 +99,6 @@ public class Main extends javax.swing.JFrame {
         btnRex = new javax.swing.JButton();
         btnAaron = new javax.swing.JButton();
         Shop = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         Inventory = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         PanelBattlemiscellaneous = new javax.swing.JPanel();
@@ -188,14 +180,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Shop, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 634, 75, -1));
-
-        jButton1.setText("GenerateEnemy");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 667, 75, -1));
 
         Inventory.setText("Bag");
         Inventory.addActionListener(new java.awt.event.ActionListener() {
@@ -424,10 +408,9 @@ public class Main extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -438,43 +421,15 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_actionTurnHandler
 
+    
     private void btnBasicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBasicAttackActionPerformed
-        // TODO add your handling code here:
-
-
-        if (activeCharacter.equals(arth)) {
-            arth.basicAttack(enemy);
-            //lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
-            //timer.start();
-            //timer.setRepeats(false);
-            checkEnemyHp();
-            enemyTakeTurn();
-            
-
-        } else if (activeCharacter.equals(aaron)) {
-            aaron.basicAttack(enemy);
-            //lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
-            //timer.start();
-            //timer.setRepeats(false);
-            checkEnemyHp();
-            enemyTakeTurn();
-            
-
-        } else if (activeCharacter.equals(rex)) {
-            rex.basicAttack(enemy);
-            //lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
-            //timer.start();
-            //timer.setRepeats(false);
-            checkEnemyHp();
-            enemyTakeTurn();
-            
-        }        
-
-        checkEnemyHp();
-        checkBuff();
-        updateLabelAndBars();
-        checkSkillCooldown();
+        activeCharacter.basicAttack(enemy);
         
+        // If enemy does not die, take turn, else generate new enemy and skip turn
+        if(!checkEnemyHp()) {
+           enemyTakeTurn(); 
+        }
+        updateLabelAndBars();
     }//GEN-LAST:event_btnBasicAttackActionPerformed
 
     private void btnDodgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodgeActionPerformed
@@ -520,7 +475,10 @@ public class Main extends javax.swing.JFrame {
             //lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
             //timer.start();
             //timer.setRepeats(false);
-            enemyTakeTurn();
+            if(!checkEnemyHp()) {
+                enemyTakeTurn(); 
+            }
+            updateLabelAndBars();
             arth.resetDodge();
 
         } else if (activeCharacter.equals(aaron)) {
@@ -539,7 +497,10 @@ public class Main extends javax.swing.JFrame {
             
             checkSkillCooldown();
             
-            enemyTakeTurn();
+            if(!checkEnemyHp()) {
+                enemyTakeTurn(); 
+            }
+            updateLabelAndBars();
 
         } else if (activeCharacter.equals(rex)) {
             updateLabelAndBars();
@@ -547,7 +508,10 @@ public class Main extends javax.swing.JFrame {
             //lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
             //timer.start();
             //timer.setRepeats(false);
-            enemyTakeTurn();
+            if(!checkEnemyHp()) {
+                enemyTakeTurn(); 
+            }
+            updateLabelAndBars();
 
         }
         
@@ -583,7 +547,7 @@ public class Main extends javax.swing.JFrame {
         
         } else if (activeCharacter.equals(aaron)) {
             updateLabelAndBars();
-            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
+            lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
             timer.start();
             timer.setRepeats(false);
 
@@ -638,18 +602,6 @@ public class Main extends javax.swing.JFrame {
         this.setContentPane(invContentPane);
     }//GEN-LAST:event_InventoryActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        enemy.getStats();
-        worldLevel ++;
-        enemy = Enemy.generateEnemy(worldLevel);
-        unlockCharacter();
-
-        enemyLevelRandomizer();
-        updateLabelAndBars();
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void ShopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShopActionPerformed
         this.setContentPane(shopContentPane);
     }//GEN-LAST:event_ShopActionPerformed
@@ -662,7 +614,7 @@ public class Main extends javax.swing.JFrame {
         btnRex.setSelected(false);
         btnArth.setSelected(false);
 
-        sharedInventory.setActiveCharacter(activeCharacter);
+        playerParty.getInventory().setActiveCharacter(activeCharacter);
         btnSkill1.setText("<html>Instant<br>Sleep<html>");
         btnSkill2.setText("BadLuck");
         if(activeCharacter != aaron) {
@@ -682,7 +634,7 @@ public class Main extends javax.swing.JFrame {
         btnArth.setSelected(false);
         btnAaron.setSelected(false);
 
-        sharedInventory.setActiveCharacter(activeCharacter);
+        playerParty.getInventory().setActiveCharacter(activeCharacter);
         btnSkill1.setText("<html>Mac<br>Attack<html>");
         btnSkill2.setText("<html>Money<br>Attack<html>");
         if(activeCharacter != rex) {
@@ -692,7 +644,6 @@ public class Main extends javax.swing.JFrame {
         checkSkillCooldown();
         checkActiveCharacter();
         updateLabelAndBars();
-        
     }//GEN-LAST:event_btnRexActionPerformed
 
     private void btnArthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArthActionPerformed
@@ -703,7 +654,7 @@ public class Main extends javax.swing.JFrame {
         btnAaron.setSelected(false);
         btnRex.setSelected(false);
 
-        sharedInventory.setActiveCharacter(activeCharacter);
+        playerParty.getInventory().setActiveCharacter(activeCharacter);
         btnSkill1.setText("<html>Scolio<br>Attack<html>");
         btnSkill2.setText("Hackerman");
         if(activeCharacter != arth) {
@@ -726,7 +677,7 @@ public class Main extends javax.swing.JFrame {
         
     public int enemyLevelRandomizer(){
         
-        int playerLevel = Player.getLevel();
+        int playerLevel = playerParty.getPartyLevel();
         int minEnemyLevel = (playerLevel == 1) ? playerLevel : playerLevel - 1;
         int maxEnemyLevel = playerLevel + 1;
 
@@ -738,7 +689,7 @@ public class Main extends javax.swing.JFrame {
     
     private void generateEnemy(){
         int enemyLevel = enemyLevelRandomizer();
-        enemy = Enemy.generateEnemy(enemyLevel);
+        enemy = Enemy.generateEnemy(enemyLevel, playerParty.getPartyLevel(), worldLevel);
         enemy.getStats();
     }
     
@@ -755,13 +706,15 @@ public class Main extends javax.swing.JFrame {
     }
     public void unlockCharacter(){
         
-        if (worldLevel == 1) {
+        if (worldLevel == 10) {
             btnRex.setEnabled(true);
             btnRex.setVisible(true);
+            rex.setUnlocked(true);
         }
-        if (worldLevel == 1) {
+        if (worldLevel == 20) {
             btnAaron.setEnabled(true);
             btnAaron.setVisible(true);
+            aaron.setUnlocked(true);
         }
     }
     public void updateLabelAndBars(){
@@ -775,7 +728,8 @@ public class Main extends javax.swing.JFrame {
         lblActiveCharacterHpAndMaxHp.setText(activeCharacter.hp + "/" + activeCharacter.maxHp);
         lblActiveCharacterManaAndMaxMana.setText(activeCharacter.mana + "/" + activeCharacter.maxMana);
         lblActiveCharacterXpCurrAndMax.setText(activeCharacter.getExpCurrent() + "/" + activeCharacter.getExpThreshold());
-        lblPlayersLevel.setText("Level: " + Player.getLevel());
+        lblPlayersLevel.setText("Level: " + playerParty.getPartyLevel());
+        System.out.println("Current Party Level: "+playerParty.getPartyLevel());
         
         lblEnemyNameandLevel.setText(enemy.name + "|" + enemy.getLevel());
         lblEnemyHpAndMaxHp.setText(enemy.hp + "/" + enemy.maxHp);
@@ -792,10 +746,11 @@ public class Main extends javax.swing.JFrame {
         stageChecker();
         totalDamageHandler();
         checkBuff();
+        unlockCharacter();
         
         cooldownHandler();
         
-        getCd();    
+        // getCd();    
         
     }
     
@@ -834,50 +789,92 @@ public class Main extends javax.swing.JFrame {
             btnSkill2.setText("<html>Spread Curse<html>");
         }
     }
-    public void checkEnemyHp(){
+    public boolean checkEnemyHp(){
+        /*
         System.out.println("Enemy is not dead");
         
         if (enemy.hp <= 0) {
             enemy.isDead = true;
             if (enemy.isDead) {
                 System.out.println("Enemy is Defeated!!!");
-                worldLevel ++;
+                worldLevel++;
+                System.out.println("In checkEnemyHP: "+worldLevel);
                 generateEnemy();
                 int expGained = enemy.calculateExpReward();
                 Player.addExperience(expGained);
+                int newMoner = (int)(Math.random()*10*enemy.getLevel()*(Math.random()+1));
+                sharedInventory.setMoney(sharedInventory.getMoney()+newMoner);
+                System.out.println("MONEYYYYYYYYYYYYYYYYYY: "+newMoner);
+                shop.updateDisplay();
+                inventory.updateDisplay();
             }
         }
-       
+       */
+        
+        if(enemy.isDead) {
+            worldLevel++;
+            playerParty.addExperienceToAll(enemy.calculateExpReward());
+            int newMoney = (int)(Math.random()*10*enemy.getLevel()*(Math.random()+10));
+            playerParty.getInventory().addMoney(newMoney);
+            generateEnemy();
+            shop.updateDisplay();
+            inventory.updateDisplay();
+            return true;
+        }
+        return false;
     }
     private void checkActiveCharacterHp(){
-        
-        boolean RexisDead = false;
-        boolean ArthisDead = false;
-        boolean AaronisDead = false;
-        
-        if (activeCharacter == arth && arth.hp <= 0) {
-            ArthisDead = true;
-            btnArth.setEnabled(false);
-            activeCharacter = rex;   
+        // if all is dead
+        System.out.println(arth.hp);
+        System.out.println(rex.hp);
+        if(!playerParty.isPartyAlive()) {
+            System.out.println("Everyone is dead");
+            System.exit(0);
         }
-            
-        if (activeCharacter == rex && rex.hp <= 0) {
-            RexisDead = true;
-            btnRex.setEnabled(false);
-            activeCharacter = aaron;   
-        } 
-        
-        if (activeCharacter == aaron && aaron.hp <= 0) {
-            AaronisDead = true;
-            btnAaron.setEnabled(false);
-            activeCharacter = arth;   
+        else if(activeCharacter.isDead) {
+            if(activeCharacter == arth) {
+                btnArth.setEnabled(false);
+                btnArth.setSelected(false);
+                if(!rex.isDead && rex.isUnlocked) {
+                    activeCharacter = rex;
+                }
+                else if(!aaron.isDead && aaron.isUnlocked) {
+                    activeCharacter = aaron;
+                }
+                else {
+                    System.out.println("Everyone is dead");
+                    System.exit(0);
+                }
+            }
+            else if(activeCharacter == rex) {
+                btnRex.setEnabled(false);
+                btnRex.setSelected(false);
+                if(!aaron.isDead && aaron.isUnlocked) {
+                    activeCharacter = aaron;
+                }
+                else if(!arth.isDead && arth.isUnlocked) {
+                    activeCharacter = arth;
+                }
+                else {
+                    System.out.println("Everyone is dead");
+                    System.exit(0);
+                }
+            }
+            else if(activeCharacter == aaron) {
+                btnAaron.setEnabled(false);
+                btnAaron.setSelected(false);
+                if(!aaron.isDead && aaron.isUnlocked) {
+                    activeCharacter = aaron;
+                }
+                else if(!rex.isDead && rex.isUnlocked) {
+                    activeCharacter = rex;
+                }
+                else {
+                    System.out.println("Everyone is dead");
+                    System.exit(0);
+                }
+            }
         }
-        
-        if (ArthisDead && AaronisDead && RexisDead) {
-            System.out.println("Game Over");
-
-        }
-        
     }
     
     public void checkBuff(){
@@ -976,7 +973,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void enemyTakeTurn(){
-        
         unlockCharacter();
         int randomMove = (int)(Math.random()*1+1);
         
@@ -991,11 +987,11 @@ public class Main extends javax.swing.JFrame {
                 break;
                 
             case 3:
-                enemy.skill1();
+                enemy.skill1(activeCharacter);
                 break;
                 
             case 4:
-                enemy.skill2();
+                enemy.skill2(activeCharacter);
                 break;
                 
                 
@@ -1003,6 +999,8 @@ public class Main extends javax.swing.JFrame {
                 throw new AssertionError();
         }
         
+        checkActiveCharacterHp();
+        System.out.println("In enemyTurn: "+worldLevel);
     }
     
     public void cooldownHandler(){
@@ -1069,7 +1067,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnRex;
     private javax.swing.JButton btnSkill1;
     private javax.swing.JButton btnSkill2;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

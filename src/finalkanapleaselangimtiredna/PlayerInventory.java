@@ -50,6 +50,10 @@ public class PlayerInventory extends AbstractInventory {
         money = amt;
     }
     
+    public void addMoney(int amt) {
+        money += amt;
+    }
+    
     public Player getActiveCharacter() {
         return activePlayer;
     }

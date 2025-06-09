@@ -8,18 +8,18 @@ package finalkanapleaselangimtiredna;
 
 public class Rex extends Player{
 
-    public Rex(PlayerInventory inv) {
-        super(1, "Rex", 500, 500, 250, 250, 0, 20, 0.10, 10, 5, 10, 15, inv);
+    public Rex() {
+        super(1, "Rex", 500, 500, 250, 250, 0, 20, 0.10, 10, 5, 10, 15);
         dodgeCooldown = 0;
         skill1Cooldown = 0;
         skill2Cooldown = 0;        
     }
     
     @Override
-    public void basicAttack(Enemy enemy){
+    public void basicAttack(Entity targetEntity){
         
         damagedealt = calculateBasicAttackDamage();
-        enemy.takeDamage((int) damagedealt);   
+        targetEntity.takeDamage((int) damagedealt);   
         
     }
     
@@ -37,27 +37,28 @@ public class Rex extends Player{
         dodgeCooldown = 5;
     }
     
-    public void skill1(Enemy enemy){
+    @Override
+    public void skill1(Entity targetEntity){
         System.out.println("Mac Attack");
         
         int macDamage = calculateBasicAttackDamage() * 2;
         damagedealt = macDamage;
         
-        enemy.takeDamage(macDamage);
+        targetEntity.takeDamage(macDamage);
         
         skill1Cooldown = 10;
     }
     
-
-    public void skill2(Enemy enemy){
+    @Override
+    public void skill2(Entity targetEntity){
         
         int bribeChance = (int)(Math.random()*100)+1;
         
-        int bribeAcceptDamage = enemy.maxHp - 1;
+        int bribeAcceptDamage = targetEntity.maxHp;
         
         damagedealt = bribeAcceptDamage;
         if (bribeChance <= 60) {
-            enemy.takeDamage((int) damagedealt);
+            targetEntity.takeDamage((int) damagedealt);
             System.out.println("Enemy accepts the money and leave the battle");
         } else {
 
@@ -65,24 +66,6 @@ public class Rex extends Player{
         }
         
         skill2Cooldown = 15;
-    }
-    
-    
-    @Override
-    public void reduceCooldown(){
-        
-        if (dodgeCooldown > 0) {
-            dodgeCooldown --;
-        }
-        
-        if (skill1Cooldown > 0) {
-            skill1Cooldown --;
-        }
-        
-        if (skill2Cooldown > 0) {
-            skill2Cooldown --;
-        }
-        
     }
     
     @Override

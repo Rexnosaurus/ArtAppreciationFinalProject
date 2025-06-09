@@ -36,9 +36,8 @@ public class Enemy extends Entity{
     public void basicAttack(Entity activeCharacter){
         int damage = this.baseAttack;
         
-        
         if (activeCharacter.isDodging == false) {
-            activeCharacter.removeHp(damage);
+            activeCharacter.takeDamage(damage);
             System.out.println("Enemy do a Basic Attack and deal " + damage + " Damage");
             
         } else if (activeCharacter.isDodging) {
@@ -47,7 +46,7 @@ public class Enemy extends Entity{
  
     }
     
-    public void dodge(Entity activeCharacter){
+    public void dodge(){
         
         isDodging = true;
         System.out.println(name + " is dodging the next attack.");
@@ -55,54 +54,20 @@ public class Enemy extends Entity{
     }
     
     @Override
-    public void skill1(){
+    public void skill1(Entity targetEntity){
         
         System.out.println("Enemy use Skill 1");
     }
     
     @Override
-    public void skill2(){
+    public void skill2(Entity targetEntity){
         
         System.out.println("Enemy use Skill2");
     }
     
-
-    public void takeDamage(int damage) {
-        if (isDodging) {
-            System.out.println(name + " dodged the attack!");
-            isDodging = false; // dodge only applies to one attack
-            damage = 0;
-        }
-        hp -= damage;
-        if (hp < 0) {
-            hp = 0;
-        }
-        System.out.println(name + " has " + hp + " HP left.");
-    }
-    
-    
-    @Override
-    public void reduceCooldown(){
+    public static Enemy generateEnemy(int lvl, int partyLevel, int wl){
         
-        if (dodgeCooldown > 0) {
-            dodgeCooldown --;
-        }
-        
-        if (skill1Cooldown > 0) {
-            skill1Cooldown --;
-        }
-        
-        if (skill2Cooldown > 0) {
-            skill2Cooldown --;
-        }
-        
-    }
-    
-
-    
-    public static Enemy generateEnemy(int lvl){
-        
-        int level = lvl;
+        int level = wl;
         String enemyName;
 
         int baseHp = 400;         
@@ -131,6 +96,7 @@ public class Enemy extends Entity{
                 enemyName = "Sol Elite Minion";
             }
         } else if (level == 10) {
+            level = partyLevel+2;
             enemyName = "Sol (The Overheating Android)";
             enemyHp *= 2;
             enemyMaxHp *= 2;
@@ -170,9 +136,6 @@ public class Enemy extends Entity{
             enemyName = "Unknown Enemy";
         }       
         return new Enemy(level, enemyName, enemyHp, enemyMaxHp, enemyMana, enemyMaxMana, enemyDefense, enemyBaseAttack, enemyCritDamage, enemyCritRate, 0, 0, 0, 1);
-        
-        
-        
     }
     
     public int getLevel(){
@@ -189,15 +152,15 @@ public class Enemy extends Entity{
 
     
     public int calculateExpReward() {
-    Random rand = new Random();
-    int baseExpMin = 10;  // minimum EXP per level
-    int baseExpMax = 20;  // maximum EXP per level
-    
-    int minExp = this.level * baseExpMin;
-    int maxExp = this.level * baseExpMax;
-    
-    // Return random EXP between minExp and maxExp (inclusive)
-    return rand.nextInt(maxExp - minExp + 1) + minExp;
+        Random rand = new Random();
+        int baseExpMin = 10;  // minimum EXP per level
+        int baseExpMax = 20;  // maximum EXP per level
+
+        int minExp = this.level * baseExpMin;
+        int maxExp = this.level * baseExpMax;
+
+        // Return random EXP between minExp and maxExp (inclusive)
+        return rand.nextInt(maxExp - minExp + 1) + minExp;
 }
     
     

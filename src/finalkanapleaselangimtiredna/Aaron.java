@@ -19,19 +19,18 @@ public class Aaron extends Player{
     
     private static final List<Player> players = new ArrayList<>();
     
-    public Aaron(PlayerInventory inv) {
-        super(1, "Aaron", 600, 600, 200, 200, 0, 15, 0.10, 10, 5, 10, 15, inv);
+    public Aaron() {
+        super(1, "Aaron", 600, 600, 200, 200, 0, 15, 0.10, 10, 5, 10, 15);
         dodgeCooldown = 0;
         skill1Cooldown = 0;
         skill2Cooldown = 0;
-        
     }
     
     @Override
-    public void basicAttack(Enemy enemy){
+    public void basicAttack(Entity targetEntity){
 
         damagedealt = calculateBasicAttackDamage();
-        enemy.takeDamage((int) damagedealt);
+        targetEntity.takeDamage((int) damagedealt);
         
     }
     
@@ -47,7 +46,15 @@ public class Aaron extends Player{
         }        
     }
     
+    /**
+     *
+     * @param targetEntity
+     * Ignore this method.
+     * This method does nothing,
+     */
     @Override
+    public void skill1(Entity targetEntity){};
+    
     public void skill1(){
         int healAmount = (int)(this.maxHp * 0.25);
         System.out.println("Aaron uses Instant Sleep Heal! Healing all characters for " + healAmount + " HP.");
@@ -61,7 +68,8 @@ public class Aaron extends Player{
         
     }
     
-    public void skill2(Enemy enemy){
+    @Override
+    public void skill2(Entity targetEntity){
 
         int damagePerTurn;
         int healAmount = (int)(this.maxHp * 0.05);
@@ -80,7 +88,6 @@ public class Aaron extends Player{
         }
         
         skill2Cooldown = 15;
-        
     }
     
     

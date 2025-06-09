@@ -14,10 +14,8 @@ public class FinalKanaPleaseLangImTiredNa {
     public static void main(String[] args) {
         System.out.println("RAN HERE");
         
-        Main main = new Main();
+        StartMenu main = new StartMenu();
         main.setVisible(true);
-        System.out.println("this");
-        java.awt.Insets insets = main.getInsets();
         
         //main.setSize(1196+insets.left+insets.right, 694+insets.top+insets.bottom);
         //main.setLocation(225,130);
