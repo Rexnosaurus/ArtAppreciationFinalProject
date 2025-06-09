@@ -85,8 +85,10 @@ public class Main extends javax.swing.JFrame {
         
         enemy.setLogArea(txtLog);
     }
+    
 
-    Timer timer = new Timer(4000, new ActionListener() {
+    
+    Timer Skill2TimerAnimation = new Timer(4000, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             lblSkill2Icon.setIcon(null);
@@ -128,6 +130,7 @@ public class Main extends javax.swing.JFrame {
         lblEnemyHpAndMaxHp = new javax.swing.JLabel();
         lblFloorLevel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        lblActiveCharacterFigure = new javax.swing.JLabel();
         lblSkill2Icon = new javax.swing.JLabel();
         txtTotalDamage = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -347,7 +350,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         jPanel2.add(PanelBattlemiscellaneous);
-        PanelBattlemiscellaneous.setBounds(1, 584, 1100, 108);
+        PanelBattlemiscellaneous.setBounds(1, 584, 1100, 111);
 
         PanelEnemyInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -388,10 +391,11 @@ public class Main extends javax.swing.JFrame {
         );
 
         jPanel2.add(PanelEnemyInfo);
-        PanelEnemyInfo.setBounds(1, 1, 1100, 77);
+        PanelEnemyInfo.setBounds(1, 1, 1100, 79);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.add(lblActiveCharacterFigure, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 210, 230));
 
         lblSkill2Icon.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         lblSkill2Icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -507,8 +511,8 @@ public class Main extends javax.swing.JFrame {
             //timer.start();
             //timer.setRepeats(false);
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+            Skill2TimerAnimation.start();
+            Skill2TimerAnimation.setRepeats(false);
             
             checkSkillCooldown();
             
@@ -539,8 +543,8 @@ public class Main extends javax.swing.JFrame {
         if (activeCharacter.equals(arth)) {
             updateLabelAndBars();
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+            Skill2TimerAnimation.start();
+            Skill2TimerAnimation.setRepeats(false);
             
             arth.hackerMan = true;
             
@@ -563,8 +567,8 @@ public class Main extends javax.swing.JFrame {
         } else if (activeCharacter.equals(aaron)) {
             updateLabelAndBars();
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2AaronAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+            Skill2TimerAnimation.start();
+            Skill2TimerAnimation.setRepeats(false);
 
             aaron.spreadCurse = true;
             
@@ -585,8 +589,8 @@ public class Main extends javax.swing.JFrame {
         } else if (activeCharacter.equals(rex)) {
             updateLabelAndBars();
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2RexAnimation.gif")));
-            timer.start();
-            timer.setRepeats(false);
+            Skill2TimerAnimation.start();
+            Skill2TimerAnimation.setRepeats(false);
             
             rex.skill2(enemy);
             checkSkillCooldown();
@@ -719,6 +723,14 @@ public class Main extends javax.swing.JFrame {
         } else if (worldLevel <= 40) {
             stage = "DIT Building";
         } 
+        
+        if (worldLevel == 11) {
+            
+        } else if (worldLevel == 21) {
+            
+        } else if (worldLevel == 31) {
+            
+        }
     }
     public void unlockCharacter(){
         
@@ -756,7 +768,7 @@ public class Main extends javax.swing.JFrame {
         
         lblFloorLevel.setText("Stage: "+ stage +" | Level: " + worldLevel);
         
-                
+        checkActiveCharacter();
         checkSkillCooldown();
         checkActiveCharacterHp();        
         stageChecker();
@@ -797,12 +809,15 @@ public class Main extends javax.swing.JFrame {
         if (activeCharacter == arth) {
             btnSkill1.setText("<html>Scolio<br>Attack<html>");
             btnSkill2.setText("<html>HackerMan<html>");
+            lblActiveCharacterFigure.setIcon(new ImageIcon(getClass().getResource("/128bit/basicAttackArth.png")));
         } else if (activeCharacter == rex) {
             btnSkill1.setText("<html>Mac<br>Attack<html>");
             btnSkill2.setText("<html>Money Bribe<html>");
+            lblActiveCharacterFigure.setIcon(new ImageIcon(getClass().getResource("/128bit/basicAttackRex.png")));
         } else if (activeCharacter == aaron) {
             btnSkill1.setText("<html>Instant<br>Sleep<html>");
             btnSkill2.setText("<html>Spread Curse<html>");
+            lblActiveCharacterFigure.setIcon(new ImageIcon(getClass().getResource("/128bit/basicAttackAaron.png")));
         }
     }
     public boolean checkEnemyHp(){
@@ -1099,6 +1114,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblActiveCharacter;
+    private javax.swing.JLabel lblActiveCharacterFigure;
     private javax.swing.JLabel lblActiveCharacterHpAndMaxHp;
     private javax.swing.JLabel lblActiveCharacterManaAndMaxMana;
     private javax.swing.JLabel lblActiveCharacterXpCurrAndMax;
