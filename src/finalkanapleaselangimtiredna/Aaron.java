@@ -57,7 +57,7 @@ public class Aaron extends Player{
     
     public void skill1(){
         int healAmount = (int)(this.maxHp * 0.25);
-        System.out.println("Aaron uses Instant Sleep Heal! Healing all characters for " + healAmount + " HP.");
+        System.out.println("\nHealed all characters for " + healAmount + "HP.");
         
         for (Player p : Player.getPlayers()) {
             p.hp = Math.min(p.hp + healAmount, p.maxHp);
