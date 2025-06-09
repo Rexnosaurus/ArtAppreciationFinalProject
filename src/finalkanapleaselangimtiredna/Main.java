@@ -19,7 +19,7 @@ import java.lang.reflect.GenericSignatureFormatError;
  */
 public class Main extends javax.swing.JFrame {
 
-    int worldLevel = 19;
+    int worldLevel = 1;
     int totalDamage;
     
     String stage; 
@@ -30,6 +30,7 @@ public class Main extends javax.swing.JFrame {
     Party playerParty = new Party();
     
     Enemy enemy = Enemy.generateEnemy(1, playerParty.getPartyLevel(), worldLevel);
+    
     
     Player activeCharacter;
     
@@ -45,6 +46,10 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         activeCharacter = arth;
+        
+        arth.setLogArea(txtLog);
+        rex.setLogArea(txtLog);
+        aaron.setLogArea(txtLog);
         
         rex.setUnlocked(false);
         aaron.setUnlocked(false);
@@ -74,11 +79,11 @@ public class Main extends javax.swing.JFrame {
         stageChecker();
         updateLabelAndBars();
         
-
-        
         mainContentPane = this.getContentPane();
         shopContentPane = shop.getContentPane();
         invContentPane = inventory.getContentPane();
+        
+        enemy.setLogArea(txtLog);
     }
 
     Timer timer = new Timer(4000, new ActionListener() {
@@ -125,6 +130,8 @@ public class Main extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         lblSkill2Icon = new javax.swing.JLabel();
         txtTotalDamage = new javax.swing.JFormattedTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtLog = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -393,6 +400,13 @@ public class Main extends javax.swing.JFrame {
         txtTotalDamage.setText("Total Damage Per Enemy");
         jPanel3.add(txtTotalDamage, new org.netbeans.lib.awtextra.AbsoluteConstraints(921, 60, 180, 60));
 
+        txtLog.setColumns(20);
+        txtLog.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        txtLog.setRows(5);
+        jScrollPane1.setViewportView(txtLog);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 1100, 90));
+
         jPanel2.add(jPanel3);
         jPanel3.setBounds(1, 86, 1100, 490);
 
@@ -423,6 +437,7 @@ public class Main extends javax.swing.JFrame {
 
     
     private void btnBasicAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBasicAttackActionPerformed
+        log(activeCharacter.name+" used basic attack");
         activeCharacter.basicAttack(enemy);
         
         // If enemy does not die, take turn, else generate new enemy and skip turn
@@ -467,7 +482,7 @@ public class Main extends javax.swing.JFrame {
 
     private void btnSkill1ActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
-
+        log(activeCharacter.name+" used "+btnSkill1.getText()+"!");
         updateLabelAndBars();
         if (activeCharacter.equals(arth)) {
             updateLabelAndBars();
@@ -520,7 +535,7 @@ public class Main extends javax.swing.JFrame {
     }                                             
 
     private void btnSkill2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSkill2ActionPerformed
-
+        log(activeCharacter.name+" used "+btnSkill2.getText()+"!");
         if (activeCharacter.equals(arth)) {
             updateLabelAndBars();
             lblSkill2Icon.setIcon(new ImageIcon(getClass().getResource("/Animations/skill2ArthAnimation.gif")));
@@ -690,6 +705,7 @@ public class Main extends javax.swing.JFrame {
     private void generateEnemy(){
         int enemyLevel = enemyLevelRandomizer();
         enemy = Enemy.generateEnemy(enemyLevel, playerParty.getPartyLevel(), worldLevel);
+        enemy.setLogArea(txtLog);
         enemy.getStats();
     }
     
@@ -974,23 +990,28 @@ public class Main extends javax.swing.JFrame {
 
     private void enemyTakeTurn(){
         unlockCharacter();
+        log("");
         int randomMove = (int)(Math.random()*1+1);
         
         switch (randomMove) {
             
             case 1:
+                log(enemy.name+" used basic attack.");
                 enemy.basicAttack(activeCharacter);
                 break;
                 
             case 2:
+                log(enemy.name+" used dodge.");
                 enemy.dodge();
                 break;
                 
             case 3:
+                log(enemy.name+" used Skill 1.");
                 enemy.skill1(activeCharacter);
                 break;
                 
             case 4:
+                log(enemy.name+" used Skill 2.");
                 enemy.skill2(activeCharacter);
                 break;
                 
@@ -1029,6 +1050,10 @@ public class Main extends javax.swing.JFrame {
         if (aaron.skill2Cooldown <= 0) {
             aaron.skill2Cooldown = 0;
         }               
+    }
+    
+    public void log(String text) {
+        txtLog.append(text+"\n");
     }
     
     private int basicAttackDamageDealt(){
@@ -1072,6 +1097,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblActiveCharacter;
     private javax.swing.JLabel lblActiveCharacterHpAndMaxHp;
     private javax.swing.JLabel lblActiveCharacterManaAndMaxMana;
@@ -1084,6 +1110,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JProgressBar pBarActiveCharacterHP;
     private javax.swing.JProgressBar pBarActiveCharacterMana;
     private javax.swing.JProgressBar pBarEnemyHp;
+    private javax.swing.JTextArea txtLog;
     private javax.swing.JFormattedTextField txtTotalDamage;
     // End of variables declaration//GEN-END:variables
 }

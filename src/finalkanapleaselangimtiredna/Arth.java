@@ -12,7 +12,7 @@ public class Arth extends Player{
     boolean hackerMan = false;
     
     public Arth() {
-        super(1, "Arth", 500, 500, 350, 350, 0, 10000, 0.5, 10, 5, 10, 15);
+        super(1, "Arth", 500, 500, 350, 350, 0, 10, 0.5, 10, 5, 10, 15);
         //super("Arth", 500, 350, 0, 90, inv);
         dodgeCooldown = 0;
         skill1Cooldown = 0;
@@ -31,13 +31,14 @@ public class Arth extends Player{
     public void dodge(){
 
         int chance = (int)(Math.random() * 100) + 1;        
-        
+        log(name+" tried to dodge...");
         if (chance <= 80) {
             isDodging = true;
             System.out.println("Arth Dodge succeeded!");
         } else {
             isDodging = false;
             System.out.println("Dodge failed!");
+            log(name+" failed to dodge.");
         }
         
     }

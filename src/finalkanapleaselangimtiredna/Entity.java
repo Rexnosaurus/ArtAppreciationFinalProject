@@ -25,6 +25,7 @@ public abstract class Entity {
     boolean isDead;
     boolean isDodging;
     double damagedealt;
+    javax.swing.JTextArea logArea;
 
     public Entity(int level, int experiencePoints, String name, int hp, int maxHp, int mana, int maxMana, int defense, int baseAttack, double critDamage, double critRate, int dodgeCooldown, int skill1Cooldown, int skill2Cooldown) {
         this.level = level;
@@ -50,18 +51,21 @@ public abstract class Entity {
     
     public void takeDamage(int damage) {
         if (isDodging) {
-            System.out.println(name + " dodged the attack!");
+            log(name + " successfully dodged the attack!");
+            System.out.println("heres");
             isDodging = false; // dodge only applies to one attack
-            damage = 0;
         }
-        
-        hp -= damage;
-        if (hp < 0) {
-            hp = 0;
-            isDead = true;
+        else {
+            hp -= damage;
+            log(name+" took "+damage+" damage!");
+            if (hp <= 0) {
+                hp = 0;
+                isDead = true;
+                log(name+" has died!");
+            }
+
+            System.out.println(name + " has " + hp + " HP left.");
         }
-        
-        System.out.println(name + " has " + hp + " HP left.");
     }
     
     public void addHp(int amt) {
@@ -113,7 +117,13 @@ public abstract class Entity {
         
     }
     
-    public void getStats(){
-        
+    public abstract void getStats();
+    
+    public void setLogArea(javax.swing.JTextArea jta) {
+        this.logArea = jta;
+    }
+    
+    public void log(String text) {
+        this.logArea.append(text+"\n");
     }
 }

@@ -35,7 +35,7 @@ public class Enemy extends Entity{
     
     public void basicAttack(Entity activeCharacter){
         int damage = this.baseAttack;
-        
+        /*
         if (activeCharacter.isDodging == false) {
             activeCharacter.takeDamage(damage);
             System.out.println("Enemy do a Basic Attack and deal " + damage + " Damage");
@@ -43,7 +43,8 @@ public class Enemy extends Entity{
         } else if (activeCharacter.isDodging) {
             System.out.println(activeCharacter.name + " Dodge The Attack");
         }
- 
+        */
+        activeCharacter.takeDamage(damage);
     }
     
     public void dodge(){

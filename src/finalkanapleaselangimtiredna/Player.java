@@ -46,23 +46,26 @@ public abstract class Player extends Entity{
         players.add(this);
     }
     
+    
     @Override
     public void takeDamage(int damage) {
         if (isDodging) {
-            System.out.println(name + " dodged the attack!");
+            System.out.println(name + " has successfully dodged the attack!");
+            log(name+" dodged the attack!");
             isDodging = false; // dodge only applies to one attack
-            damage = 0;
         }
-        
-        hp -= damage;
-        if (hp < 0) {
-            hp = 0;
-            isDead = true;
-            isUnlocked = false;
-        }
-        
-        System.out.println(name + " has " + hp + " HP left.");
+        else {
+            hp -= damage;
+            log(name+" took "+damage+" damage.");
+            if (hp < 0) {
+                hp = 0;
+                isDead = true;
+                isUnlocked = false;
+                log(name+" has died");
+            }
+        } 
     }
+    
     
     /*
     public static void addExperience(int exp) {
