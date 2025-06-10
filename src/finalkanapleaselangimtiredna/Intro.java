@@ -61,11 +61,12 @@ public class Intro extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         lblIntro.setIcon(new ImageIcon(getClass().getResource("/MP4/INTRO.gif")));
-        Timer IntroAnimation = new Timer(48000, new ActionListener() {
+        Timer IntroAnimation = new Timer(590000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
                 main.setVisible(true);
+                dispose();
                 }
             }
         );

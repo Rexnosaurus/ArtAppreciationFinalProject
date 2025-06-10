@@ -4,6 +4,12 @@
  */
 package finalkanapleaselangimtiredna;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.Timer;
+
 /**
  *
  * @author MSI
@@ -13,8 +19,11 @@ public class Outro extends javax.swing.JFrame {
     /**
      * Creates new form Intro
      */
-    public Outro() {
+    
+    Main mainFrame;
+    public Outro(Main m) {
         initComponents();
+        mainFrame = m;
     }
 
     /**
@@ -29,6 +38,11 @@ public class Outro extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("jLabel1");
 
@@ -45,6 +59,21 @@ public class Outro extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jLabel1.setIcon(new ImageIcon(getClass().getResource("/MP4/OUTROgif")));
+        this.setSize(new Dimension(1280, 720));
+        Timer outro = new Timer(35*1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    mainFrame.setVisible(true);
+                }
+            }
+        );
+        outro.setRepeats(false);
+        outro.start();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -77,7 +106,7 @@ public class Outro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Outro().setVisible(true);
+                new Outro(null).setVisible(true);
             }
         });
     }

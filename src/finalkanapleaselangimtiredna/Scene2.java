@@ -4,6 +4,12 @@
  */
 package finalkanapleaselangimtiredna;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.Timer;
+
 /**
  *
  * @author MSI
@@ -13,8 +19,11 @@ public class Scene2 extends javax.swing.JFrame {
     /**
      * Creates new form Intro
      */
-    public Scene2() {
+    Main mainFrame;
+    
+    public Scene2(Main m) {
         initComponents();
+        mainFrame = m;
     }
 
     /**
@@ -29,6 +38,11 @@ public class Scene2 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("jLabel1");
 
@@ -36,15 +50,32 @@ public class Scene2 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jLabel1.setIcon(new ImageIcon(getClass().getResource("/MP4/SCENE2.gif")));
+        this.setSize(new Dimension(1280, 720));
+        Timer S2 = new Timer(43*1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    dispose();
+                    mainFrame.setVisible(true);
+                }
+            }
+        );
+        S2.setRepeats(false);
+        S2.start();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -77,7 +108,7 @@ public class Scene2 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Scene2().setVisible(true);
+                new Scene2(null).setVisible(true);
             }
         });
     }

@@ -29,7 +29,7 @@ public class StartMenu extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setFont(new java.awt.Font("NSimSun", 0, 48)); // NOI18N
         jButton1.setText("START");
@@ -68,8 +68,11 @@ public class StartMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Main main = new Main();
-        main.setVisible(true);
+
+
+        
+        Intro intro = new Intro();
+        intro.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

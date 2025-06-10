@@ -12,7 +12,7 @@ public class Arth extends Player{
     boolean hackerMan = false;
     
     public Arth() {
-        super(1, "Arth", 500, 500, 350, 350, 0, 10, 0.5, 10, 5, 10, 15);
+        super(1, "Arth", 500, 500, 350, 350, 0, 1000000, 0.5, 10, 5, 10, 15);
         //super("Arth", 500, 350, 0, 90, inv);
         dodgeCooldown = 0;
         skill1Cooldown = 0;

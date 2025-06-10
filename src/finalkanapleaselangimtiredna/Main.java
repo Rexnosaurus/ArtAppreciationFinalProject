@@ -19,7 +19,7 @@ import java.lang.reflect.GenericSignatureFormatError;
  */
 public class Main extends javax.swing.JFrame {
 
-    int worldLevel = 1;
+    int worldLevel = 30;
     int totalDamage;
     
     String stage; 
@@ -42,6 +42,7 @@ public class Main extends javax.swing.JFrame {
     Container mainContentPane;
     Container shopContentPane;
     Container invContentPane;
+    
     
     public Main() {
         initComponents();
@@ -131,6 +132,7 @@ public class Main extends javax.swing.JFrame {
         lblFloorLevel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblActiveCharacterFigure = new javax.swing.JLabel();
+        lblEnemySprite = new javax.swing.JLabel();
         lblSkill2Icon = new javax.swing.JLabel();
         txtTotalDamage = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -396,6 +398,7 @@ public class Main extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel3.add(lblActiveCharacterFigure, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 210, 230));
+        jPanel3.add(lblEnemySprite, new org.netbeans.lib.awtextra.AbsoluteConstraints(692, 67, 230, 300));
 
         lblSkill2Icon.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         lblSkill2Icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -716,6 +719,7 @@ public class Main extends javax.swing.JFrame {
     private void stageChecker(){
         if (worldLevel <= 10) {
             stage = "Canteen";
+            
         } else if (worldLevel <= 20) {
             stage = "Gymnasium";
         } else if (worldLevel <= 30) {
@@ -725,11 +729,21 @@ public class Main extends javax.swing.JFrame {
         } 
         
         if (worldLevel == 11) {
-            
+            this.setVisible(false);
+            Scene2 sc = new Scene2(this);
+            sc.setVisible(true);
         } else if (worldLevel == 21) {
-            
+            this.setVisible(false);
+            Scene3 sc = new Scene3(this);
+            sc.setVisible(true);
         } else if (worldLevel == 31) {
-            
+            this.setVisible(false);
+            Scene4 sc = new Scene4(this);
+            sc.setVisible(true);
+        } else if (worldLevel == 41) {
+            this.setVisible(false);
+            Outro sc = new Outro(this);
+            sc.setVisible(true);
         }
     }
     public void unlockCharacter(){
@@ -1120,6 +1134,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblActiveCharacterXpCurrAndMax;
     private javax.swing.JLabel lblEnemyHpAndMaxHp;
     private javax.swing.JLabel lblEnemyNameandLevel;
+    private javax.swing.JLabel lblEnemySprite;
     private javax.swing.JLabel lblFloorLevel;
     private javax.swing.JLabel lblPlayersLevel;
     private javax.swing.JLabel lblSkill2Icon;

@@ -17,8 +17,7 @@ public class FinalKanaPleaseLangImTiredNa {
         StartMenu main = new StartMenu();
         main.setVisible(true);
         
-        Intro intro = new Intro();
-        intro.setVisible(true);
+        
         
         //main.setSize(1196+insets.left+insets.right, 694+insets.top+insets.bottom);
         //main.setLocation(225,130);
